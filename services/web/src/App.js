@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+
+// Assets
 import "./App.css";
 import logo from "./mlh-prep.png";
 
@@ -23,45 +25,43 @@ function App() {
             setResults(result);
           }
         },
-        (error) => {
+        (err) => {
           setIsLoaded(true);
-          setError(error);
+          setError(err);
         }
       );
   }, [city]);
 
   if (error) {
     return <div>Error: {error.message}</div>;
-  } else {
-    return (
-      <img>
-        <img className='logo' src={logo} alt='MLH Prep Logo'></img>
-        <div>
-          <h2>Enter a city below 👇</h2>
-          <input
-            type='text'
-            value={city}
-            onChange={(event) => setCity(event.target.value)}
-          />
-          <div className='Results'>
-            {!isLoaded && <h2>Loading...</h2>}
-            {console.log(results)}
-            {isLoaded && results && (
-              <>
-                <h3>{results.weather[0].main}</h3>
-                <p>Feels like {results.main.feels_like}°C</p>
-                <i>
-                  <p>
-                    {results.name}, {results.sys.country}
-                  </p>
-                </i>
-              </>
-            )}
-          </div>
-        </div>
-      </>
-    );
   }
+  return (
+    <>
+      <img className='logo' src={logo} alt='MLH Prep Logo' />
+      <div>
+        <h2>Enter a city below 👇</h2>
+        <input
+          type='text'
+          value={city}
+          onChange={(event) => setCity(event.target.value)}
+        />
+        <div className='Results'>
+          {!isLoaded && <h2>Loading...</h2>}
+          {isLoaded && results && (
+            <>
+              <h3>{results.weather[0].main}</h3>
+              <p>Feels like {results.main.feels_like}°C</p>
+              <i>
+                <p>
+                  {results.name}, {results.sys.country}
+                </p>
+              </i>
+            </>
+          )}
+        </div>
+      </div>
+    </>
+  );
 }
 
 export default App;
