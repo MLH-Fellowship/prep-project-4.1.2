@@ -16,6 +16,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "prettier:fix": "npx prettier --write ./src",
+    "prettier:check": "npx prettier --check ./src",
     "lint:fix": "npx eslint --fix 'src/**/*.{js,jsx,ts,tsx,json,md}'",
     "lint:find": "npx eslint 'src/**/*.{js,jsx,ts,tsx,json,md}'"
   },
