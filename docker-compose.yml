@@ -1,4 +1,4 @@
-version: "3.9"
+version: '3.9'
 
 services:
   db:
@@ -11,11 +11,11 @@ services:
     volumes:
       - dbdata:/var/lib/postgresql/data
     ports:
-      - "5431:5432"
+      - '5431:5432'
 
   server:
     build:
-      context: ./services/server
+      context: ./server
       dockerfile: Dockerfile.dev
     environment:
       - POSTGRES_USER
@@ -23,22 +23,22 @@ services:
       - POSTGRES_DB
     container_name: server
     volumes:
-      - ./services/server/:/app
+      - ./server/:/app
     ports:
-      - "5000:80"
+      - '5000:80'
 
   web:
     build:
-      context: ./services/web
+      context: ./web
       dockerfile: Dockerfile.dev
     container_name: web
     depends_on:
       - server
     volumes:
-      - ./services/web/:/usr/app
+      - ./web/:/usr/app
       - node_modules_web:/usr/app/node_modules
     ports:
-      - "3000:3000"
+      - '3000:3000'
 
 volumes:
   dbdata:
