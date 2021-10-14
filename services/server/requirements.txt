@@ -3,3 +3,7 @@ pydantic
 starlette
 uvicorn
 authlib
+itsdangerous
+httpx<0.18.2
+sqlalchemy
+psycopg2

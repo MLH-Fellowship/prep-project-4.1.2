@@ -1,13 +1,14 @@
-import json
 import os
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, HTTPException, status, Depends
 from fastapi.responses import JSONResponse
+import schemas
 from starlette.config import Config
 from starlette.requests import Request
-from starlette.middleware.sessions import SessionMiddleware
 from starlette.responses import HTMLResponse, RedirectResponse
 from authlib.integrations.starlette_client import OAuth, OAuthError
-
+from db import crud
+from db.crud import get_db
+from sqlalchemy.orm import Session
 
 router = APIRouter()
 
@@ -33,14 +34,8 @@ oauth.register(
     }
 )
 
-# Set up the middleware to read the request session
-SECRET_KEY = os.environ.get('SECRET_KEY') or None
-if SECRET_KEY is None:
-    raise 'Missing SECRET_KEY'
-router.add_middleware(SessionMiddleware, secret_key=SECRET_KEY)
-
 # Frontend Host
-FRONTEND_HOST = os.environ.get('FRONTEND_HOST') or 'http://web'
+FRONTEND_HOST = os.environ.get('FRONTEND_HOST') or 'http://localhost:5000'
 
 # Frontend URL:
 FRONTEND_URL = "{host}/oauth2callback".format(host=FRONTEND_HOST)
@@ -53,7 +48,7 @@ async def login_redirect(req: Request):
 
 
 @router.get('/oauth2callback')
-async def oauth2callback(req: Request):
+async def oauth2callback(req: Request, db: Session = Depends(get_db)):
     try:
         access_token = await oauth.google.authorize_access_token(req)
     except OAuthError:
@@ -63,7 +58,21 @@ async def oauth2callback(req: Request):
             headers={'WWW-Authenticate': 'Bearer'},
         )
     user_data = await oauth.google.parse_id_token(req, access_token)
+    user = crud.get_user_by_email(db, user_data['email'])
+
+    if not user:
+        user = schemas.User(email=user_data.email, name=user_data.name)
+        crud.create_user(db, user)
+
     # TODO: validate email in our database and generate JWT token
     jwt = f'valid-jwt-token-for-{user_data["email"]}'
     # TODO: return the JWT token to the user so it can make requests to our /api endpoint
     return JSONResponse({'result': True, 'access_token': jwt})
+
+
+# {'iss': 'https://accounts.google.com', 'azp': '153729250130-mgekntsf4mea7os4pbhga4elull61bu8.apps.googleusercontent.com',
+#  'aud': '153729250130-mgekntsf4mea7os4pbhga4elull61bu8.apps.googleusercontent.com', 'sub': '100961221647844405120',
+#  'email': 'nikhilbn365@gmail.com', 'email_verified': True,
+#     'at_hash': '8RCBef-0rhlPHBypKjYOJQ', 'nonce': 'epdsT03Pjah5cxYyxo3F',
+#     'name': 'Nikhil BN', 'picture': 'https://lh3.googleusercontent.com/a-/AOh14GiiEE1sHEnKc-FhY1ffSG4EM_tz66cjtGF1UoWf=s96-c',
+#     'given_name': 'Nikhil', 'family_name': 'BN', 'locale': 'en', 'iat': 1634212258, 'exp': 1634215858}
