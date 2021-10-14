@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 
 // Assets
-import "./App.css";
-import logo from "./mlh-prep.png";
+import './App.css';
+import logo from './mlh-prep.png';
 
 function App() {
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [city, setCity] = useState("New York City");
+  const [city, setCity] = useState('New York City');
   const [results, setResults] = useState(null);
 
   useEffect(() => {
     fetch(
       `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric` +
-        `&appid=${process.env.REACT_APP_APIKEY}`
+        `&appid=${process.env.REACT_APP_APIKEY}`,
     )
       .then((res) => res.json())
       .then(
@@ -28,7 +28,7 @@ function App() {
         (err) => {
           setIsLoaded(true);
           setError(err);
-        }
+        },
       );
   }, [city]);
 
@@ -40,11 +40,7 @@ function App() {
       <img className='logo' src={logo} alt='MLH Prep Logo' />
       <div>
         <h2>Enter a city below 👇</h2>
-        <input
-          type='text'
-          value={city}
-          onChange={(event) => setCity(event.target.value)}
-        />
+        <input type='text' value={city} onChange={(event) => setCity(event.target.value)} />
         <div className='Results'>
           {!isLoaded && <h2>Loading...</h2>}
           {isLoaded && results && (
