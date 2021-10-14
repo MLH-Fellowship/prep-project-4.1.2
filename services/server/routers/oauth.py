@@ -9,6 +9,8 @@ from authlib.integrations.starlette_client import OAuth, OAuthError
 from db import crud
 from db.crud import get_db
 from sqlalchemy.orm import Session
+from verify import create_access_token
+from datetime import timedelta
 
 router = APIRouter()
 
@@ -35,7 +37,7 @@ oauth.register(
 )
 
 # Frontend Host
-FRONTEND_HOST = os.environ.get('FRONTEND_HOST') or 'http://localhost:5000'
+FRONTEND_HOST = os.environ.get('FRONTEND_HOST') or 'http://localhost:3000'
 
 # Frontend URL:
 FRONTEND_URL = "{host}/oauth2callback".format(host=FRONTEND_HOST)
@@ -64,10 +66,7 @@ async def oauth2callback(req: Request, db: Session = Depends(get_db)):
         user = schemas.User(email=user_data.email, name=user_data.name)
         crud.create_user(db, user)
 
-    # TODO: validate email in our database and generate JWT token
-    jwt = f'valid-jwt-token-for-{user_data["email"]}'
-    # TODO: return the JWT token to the user so it can make requests to our /api endpoint
-    return JSONResponse({'result': True, 'access_token': jwt})
+    return JSONResponse({'result': True, 'access_token': create_access_token(user_data, timedelta(weeks=+4))})
 
 
 # {'iss': 'https://accounts.google.com', 'azp': '153729250130-mgekntsf4mea7os4pbhga4elull61bu8.apps.googleusercontent.com',

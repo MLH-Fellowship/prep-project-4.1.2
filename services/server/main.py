@@ -51,6 +51,7 @@ async def token(request: Request):
                             console.log(req.response);
                             if (req.response["result"] === true) {
                                 window.localStorage.setItem('jwt', req.response["access_token"]);
+                                console.log(req.response)
                             }
                         }
                     }

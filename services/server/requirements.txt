@@ -7,3 +7,5 @@ itsdangerous
 httpx<0.18.2
 sqlalchemy
 psycopg2
+passlib[bcrypt]
+python-jose[cryptography]
