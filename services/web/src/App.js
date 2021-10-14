@@ -1,6 +1,36 @@
 import React, { useEffect, useState } from 'react';
-import './App.css';
+
+// Libraries
+import styled from 'styled-components';
+
+// Assets
 import logo from './mlh-prep.png';
+
+const Logo = styled.img`
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 20%;
+  margin-top: 20px;
+`;
+
+const Input = styled.input`
+  padding: 10px;
+  border-radius: 4px;
+  border: 10px;
+  width: 200px;
+`;
+
+const Results = styled.div`
+  background-color: white;
+  margin-left: 150px;
+  margin-right: 150px;
+  margin-top: 20px;
+  border-radius: 8px;
+  color: black;
+  padding: 10px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+`;
 
 function App() {
   const [error, setError] = useState(null);
@@ -36,11 +66,11 @@ function App() {
 
   return (
     <>
-      <img className='logo' src={logo} alt='MLH Prep Logo' />
+      <Logo src={logo} alt='MLH Prep Logo' />
       <div>
         <h2>Enter a city below 👇</h2>
-        <input type='text' value={city} onChange={(event) => setCity(event.target.value)} />
-        <div className='Results'>
+        <Input type='text' value={city} onChange={(event) => setCity(event.target.value)} />
+        <Results>
           {!isLoaded && <h2>Loading...</h2>}
           {isLoaded && results && (
             <>
@@ -53,7 +83,7 @@ function App() {
               </i>
             </>
           )}
-        </div>
+        </Results>
       </div>
     </>
   );
