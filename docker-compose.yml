@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   db:
-    image: postgres:14-alpine
+    image: postgis:14-3.1-alpine
     container_name: db
     environment:
       - POSTGRES_USER
