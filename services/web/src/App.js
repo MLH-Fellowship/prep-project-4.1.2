@@ -6,6 +6,9 @@ import { Router, Route, Switch } from 'react-router-dom';
 // Assets
 import history from './utils/createBrowserHistory';
 
+// State Handlers
+import { WeatherProvider } from './store/contexts/weather.context';
+
 /**
  * React has a feature where the production code can
  * be splitted into chunks instead of one single file
@@ -27,17 +30,19 @@ const AsyncError = lazy(() => import('./pages/Error'));
 
 const App = () => (
   <Router history={history}>
-    <Suspense fallback={<div>Loading...</div>}>
-      <Switch>
-        <Route exact path='/'>
-          <AsyncWeather />
-        </Route>
+    <WeatherProvider>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Switch>
+          <Route exact path='/'>
+            <AsyncWeather />
+          </Route>
 
-        <Route exact path='*'>
-          <AsyncError />
-        </Route>
-      </Switch>
-    </Suspense>
+          <Route exact path='*'>
+            <AsyncError />
+          </Route>
+        </Switch>
+      </Suspense>
+    </WeatherProvider>
   </Router>
 );
 

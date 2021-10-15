@@ -1,10 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 // Libraries
 import styled from 'styled-components';
 
 // Assets
 import logo from '../mlh-prep.png';
+
+// State handlers
+import { useWeather } from '../store/contexts/weather.context';
+import { WeatherActionTypes } from '../store/reducers/weather.reducer';
 
 const Logo = styled.img`
   display: block;
@@ -33,35 +37,48 @@ const Results = styled.div`
 `;
 
 function App() {
-  const [error, setError] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [city, setCity] = useState('New York City');
-  const [results, setResults] = useState(null);
+  const [state, dispatch] = useWeather();
 
   useEffect(() => {
     fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric` +
+      `https://api.openweathermap.org/data/2.5/weather?q=${state.city}&units=metric` +
         `&appid=${process.env.REACT_APP_APIKEY}`,
     )
       .then((res) => res.json())
       .then(
         (result) => {
           if (result.cod !== 200) {
-            setIsLoaded(false);
+            dispatch({
+              type: WeatherActionTypes.UpdateWeatherDetails,
+              payload: {
+                results: null,
+                isLoaded: false,
+              },
+            });
           } else {
-            setIsLoaded(true);
-            setResults(result);
+            dispatch({
+              type: WeatherActionTypes.UpdateWeatherDetails,
+              payload: {
+                results: result,
+                isLoaded: true,
+              },
+            });
           }
         },
         (err) => {
-          setIsLoaded(true);
-          setError(err);
+          dispatch({
+            type: WeatherActionTypes.UpdateWeatherDetails,
+            payload: {
+              error: err,
+              isLoaded: false,
+            },
+          });
         },
       );
-  }, [city]);
+  }, [state.city, dispatch]);
 
-  if (error) {
-    return <div>Error: {error.message}</div>;
+  if (state.error) {
+    return <div>Error: {state.error.message}</div>;
   }
 
   return (
@@ -69,16 +86,25 @@ function App() {
       <Logo src={logo} alt='MLH Prep Logo' />
       <div>
         <h2>Enter a city below 👇</h2>
-        <Input type='text' value={city} onChange={(event) => setCity(event.target.value)} />
+        <Input
+          type='text'
+          value={state.city}
+          onChange={(event) =>
+            dispatch({
+              type: WeatherActionTypes.UpdateLocation,
+              payload: event.target.value,
+            })
+          }
+        />
         <Results>
-          {!isLoaded && <h2>Loading...</h2>}
-          {isLoaded && results && (
+          {!state.isLoaded && <h2>Loading...</h2>}
+          {state.isLoaded && state.results && (
             <>
-              <h3>{results.weather[0].main}</h3>
-              <p>Feels like {results.main.feels_like}°C</p>
+              <h3>{state.results.weather[0].main}</h3>
+              <p>Feels like {state.results.main.feels_like}°C</p>
               <i>
                 <p>
-                  {results.name}, {results.sys.country}
+                  {state.results.name}, {state.results.sys.country}
                 </p>
               </i>
             </>
