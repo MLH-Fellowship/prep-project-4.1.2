@@ -1,13 +1,14 @@
 import React, { lazy, Suspense } from 'react';
 
 // Libraries
-import { Router, Route, Switch, Redirect } from 'react-router-dom';
+import { Router, Route, Switch } from 'react-router-dom';
 
 // Assets
 import history from './utils/createBrowserHistory';
 
 // Lazily Load Pages (Helps with code splitting)
 const AsyncWeather = lazy(() => import('./pages/Weather'));
+const AsyncError = lazy(() => import('./pages/Error'));
 
 const App = () => (
   <Router history={history}>
@@ -17,7 +18,9 @@ const App = () => (
           <AsyncWeather />
         </Route>
 
-        <Redirect to='/' />
+        <Route exact path='*'>
+          <AsyncError />
+        </Route>
       </Switch>
     </Suspense>
   </Router>
