@@ -21,3 +21,9 @@ export function useWeather() {
 
   return [state, dispatch];
 }
+
+/**
+ * ! CHECKOUT the blog below for implementation details of
+ * ! context api state management
+ * ! https://kentcdodds.com/blog/how-to-use-react-context-effectively
+ */

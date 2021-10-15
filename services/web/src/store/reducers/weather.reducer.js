@@ -1,8 +1,14 @@
+/**
+ * ! CHECKOUT the blog below for implementation details of
+ * ! context api state management
+ * ! https://kentcdodds.com/blog/how-to-use-react-context-effectively
+ */
+
 export const initialState = {
   city: 'New York',
   results: null,
   error: null,
-  isLoaded: null,
+  isLoaded: false,
 };
 
 export const WeatherActionTypes = {

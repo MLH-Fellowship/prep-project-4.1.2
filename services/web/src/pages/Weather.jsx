@@ -10,6 +10,12 @@ import logo from '../mlh-prep.png';
 import { useWeather } from '../store/contexts/weather.context';
 import { WeatherActionTypes } from '../store/reducers/weather.reducer';
 
+/**
+ * ! CHECKOUT the blog below for implementation details of
+ * ! context api state management
+ * ! https://kentcdodds.com/blog/how-to-use-react-context-effectively
+ */
+
 const Logo = styled.img`
   display: block;
   margin-left: auto;
