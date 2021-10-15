@@ -15,6 +15,7 @@ models.Base.metadata.create_all(bind=engine)
 app = FastAPI()
 
 
+# use app.include_router to add another app's routes
 app.include_router(oauth.router, prefix="/oauth")
 
 ALLOWED_HOSTS = ["*"]
