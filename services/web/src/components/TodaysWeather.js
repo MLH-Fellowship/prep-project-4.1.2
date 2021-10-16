@@ -14,7 +14,7 @@ const TodaysWeather = ({ data, city }) => {
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     const dayName = days[date.getDay()];
     const month = date.toLocaleString('default', { month: 'long' });
-    const day = date.getDay();
+    const day = date.getDate();
     const year = date.getFullYear();
 
     return ` ${day}th ${month} ${year} ${dayName}`;
