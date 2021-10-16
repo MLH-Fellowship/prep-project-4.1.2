@@ -17,7 +17,7 @@ class User(Base):
 
 
 tags_places = Table('association', Base.metadata,
-                    Column('tag_id', ForeignKey('tag.id')),
+                    Column('tag_id', ForeignKey('tags.id')),
                     Column('place_id', ForeignKey('places.id'))
                     )
 

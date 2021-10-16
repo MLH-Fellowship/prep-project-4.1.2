@@ -1,12 +1,15 @@
 import os
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from routers import oauth
+from schemas import User
+from verify import get_current_user
 from starlette.middleware.sessions import SessionMiddleware
 from starlette.responses import HTMLResponse
 from starlette.requests import Request
 from fastapi.middleware.cors import CORSMiddleware
 from db import models
 from db.database import engine
+from sqlalchemy.orm import Session
 
 
 # Create DB tables
@@ -65,3 +68,8 @@ async def token(request: Request):
                 </script>
                 <button onClick="send()">Get FastAPI JWT Token</button>
             ''')
+
+
+@app.get('/example_protected_route', response_model=User)
+async def protected_route(user: User = Depends(get_current_user)):
+    return user
