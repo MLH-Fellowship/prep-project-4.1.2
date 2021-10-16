@@ -8,6 +8,7 @@ const TodaysWeather = ({ data, city }) => {
     const time = `${hours} : ${minutes}`;
     return time;
   }
+  console.log(data);
 
   function toDate(dt) {
     const date = new Date(dt * 1000);
@@ -19,25 +20,25 @@ const TodaysWeather = ({ data, city }) => {
     return ` ${day}th ${month} ${year} ${dayName}`;
   }
 
-  console.log(data);
   return (
     <div className='todaysWeather'>
       <h1>{city}</h1>
       <h2>{toDate(data.dt)}</h2>
+      <h2>Feels Like: {Math.round(data.temp)}°C</h2>
       <h2>{data.weather[0].description}</h2>
-      Sunrise:{toTime(data.sunrise)}
+      Sunrise: {toTime(data.sunrise)}
       <br />
-      Sunset:{toTime(data.sunset)}
+      Sunset: {toTime(data.sunset)}
       <br />
-      Humidity:{data.humidity}
+      Humidity: {data.humidity}
       <br />
-      WInd:{data.wind_speed}
+      WInd: {data.wind_speed}
       <br />
-      Feels like:{data.feels_like}
+      Feels like: {data.feels_like}
       <br />
       Visibility: {data.visibility}
       <br />
-      Pressure:{data.pressure}
+      Pressure: {data.pressure}
     </div>
   );
 };
