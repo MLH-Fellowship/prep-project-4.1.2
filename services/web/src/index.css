@@ -201,16 +201,16 @@ code {
   border: 1px solid red;
   width: 80%;
   margin: auto;
-  display: grid;
-  align-items: flex-start;
 }
 
 .todaysWeather {
   border: 1px solid green;
   width: 60%;
+  margin: auto;
 }
 
 .weeklyWeather {
   border: 1px solid violet;
   width: 40%;
+  margin: auto;
 }
