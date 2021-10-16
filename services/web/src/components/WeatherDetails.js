@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
 import TodaysWeather from './TodaysWeather';
+import WeeklyWeather from './WeeklyWeather';
 
 const WeatherDetails = ({ city, lat, long }) => {
   const [currentData, setCurrentData] = useState();
+  const [weekData, setWeekData] = useState();
 
   useEffect(() => {
     fetch(
@@ -13,11 +15,13 @@ const WeatherDetails = ({ city, lat, long }) => {
       .then((res) => res.json())
       .then((result) => {
         setCurrentData(result.current);
+        setWeekData(result.daily);
       });
   }, [lat, long]);
   return (
     <div className='weatherDetails'>
       {currentData && <TodaysWeather data={currentData} city={city} />}
+      {weekData && <WeeklyWeather data={weekData} />}
     </div>
   );
 };
