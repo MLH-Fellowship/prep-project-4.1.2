@@ -1,4 +1,5 @@
 import React from 'react';
+import getIcon from './utils';
 
 const TodaysWeather = ({ data, city }) => {
   function toTime(dt) {
@@ -8,7 +9,6 @@ const TodaysWeather = ({ data, city }) => {
     const time = `${hours} : ${minutes}`;
     return time;
   }
-  console.log(data);
 
   function toDate(dt) {
     const date = new Date(dt * 1000);
@@ -25,6 +25,7 @@ const TodaysWeather = ({ data, city }) => {
       <h1>{city}</h1>
       <h2>{toDate(data.dt)}</h2>
       <h2>Feels Like: {Math.round(data.temp)}°C</h2>
+      {getIcon(data.weather[0].icon)}
       <h2>{data.weather[0].description}</h2>
       Sunrise: {toTime(data.sunrise)}
       <br />
