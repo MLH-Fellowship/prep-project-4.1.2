@@ -6,7 +6,7 @@ import styled from 'styled-components';
 // Assets
 import logo from './mlh-prep.png';
 
-import WeatherDetails from './components/WeatherDetails';
+import WeatherDetails from './components/WeatherDetails/WeatherDetails';
 
 const Logo = styled.img`
   display: block;
@@ -91,7 +91,7 @@ function App() {
           )}
         </Results>
       </div>
-      {isLoaded && results && lat && long && <WeatherDetails city={city} lat={lat} long={long} />}
+      {isLoaded && lat && long && <WeatherDetails city={city} lat={lat} long={long} />}
     </>
   );
 }
