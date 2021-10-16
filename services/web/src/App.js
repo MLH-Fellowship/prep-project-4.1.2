@@ -6,6 +6,8 @@ import styled from 'styled-components';
 // Assets
 import logo from './mlh-prep.png';
 
+import WeatherDetails from './components/WeatherDetails';
+
 const Logo = styled.img`
   display: block;
   margin-left: auto;
@@ -37,6 +39,8 @@ function App() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [city, setCity] = useState('New York City');
   const [results, setResults] = useState(null);
+  const [lat, setLat] = useState();
+  const [long, setLong] = useState();
 
   useEffect(() => {
     fetch(
@@ -51,6 +55,8 @@ function App() {
           } else {
             setIsLoaded(true);
             setResults(result);
+            setLat(result.coord.lat);
+            setLong(result.coord.lon);
           }
         },
         (err) => {
@@ -85,6 +91,7 @@ function App() {
           )}
         </Results>
       </div>
+      {isLoaded && results && lat && long && <WeatherDetails city={city} lat={lat} long={long} />}
     </>
   );
 }
