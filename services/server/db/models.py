@@ -6,6 +6,7 @@ from sqlalchemy.sql.schema import ForeignKey, Table
 from sqlalchemy.sql.sqltypes import DateTime
 from .database import Base
 from geoalchemy2 import Geometry
+from sqlalchemy.sql import func
 
 
 class User(Base):
@@ -47,7 +48,7 @@ class Comment(Base):
     __tablename__ = "comments"
 
     id = Column(Integer, primary_key=True, index=True)
-    created = Column(DateTime)
+    created = Column(DateTime(timezone=True), server_default=func.now())
     body = Column(String, nullable=False)
     place_id = Column(Integer, ForeignKey('places.id'),
                       primary_key=True, nullable=False)
@@ -59,7 +60,7 @@ class Comment(Base):
 class Vote(Base):
     __tablename__ = "votes"
 
-    created = Column(DateTime)
+    created = Column(DateTime(timezone=True), server_default=func.now())
     place_id = Column(Integer, ForeignKey('places.id'),
                       primary_key=True, nullable=False)
     user_email = Column(String, ForeignKey('users.email'),
@@ -70,7 +71,7 @@ class Vote(Base):
 class Webhook(Base):
     __tablename__ = "webhooks"
 
-    created = Column(DateTime)
+    created = Column(DateTime(timezone=True), server_default=func.now())
     trigger_name = Column(String)
     url = Column(String)
     type = Column(String)
