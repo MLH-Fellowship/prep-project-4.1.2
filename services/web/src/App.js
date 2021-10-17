@@ -9,6 +9,8 @@ import history from './utils/createBrowserHistory';
 // State Handlers
 import { WeatherProvider } from './store/contexts/weather.context';
 
+// components
+import { DynamicBackground } from './components/DynamicBackground';
 /**
  * React has a feature where the production code can
  * be splitted into chunks instead of one single file
@@ -29,21 +31,23 @@ const AsyncWeather = lazy(() => import('./pages/Weather'));
 const AsyncError = lazy(() => import('./pages/Error'));
 
 const App = () => (
-  <Router history={history}>
-    <WeatherProvider>
-      <Suspense fallback={<div>Loading...</div>}>
-        <Switch>
-          <Route exact path='/'>
-            <AsyncWeather />
-          </Route>
+    <Router history={history}>
+      <WeatherProvider>
+        <Suspense fallback={<div>Loading...</div>}>
+          <Switch>
+            <Route exact path='/'>
+              <DynamicBackground query='storm'>
+                <AsyncWeather />
+              </DynamicBackground>
+            </Route>
 
-          <Route exact path='*'>
-            <AsyncError />
-          </Route>
-        </Switch>
-      </Suspense>
-    </WeatherProvider>
-  </Router>
-);
+            <Route exact path='*'>
+              <AsyncError />
+            </Route>
+          </Switch>
+        </Suspense>
+      </WeatherProvider>
+    </Router>
+  );
 
 export default App;
