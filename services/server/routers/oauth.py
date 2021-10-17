@@ -66,7 +66,10 @@ async def oauth2callback(req: Request, db: Session = Depends(get_db)):
         user = schemas.User(email=user_data.email, name=user_data.name)
         crud.create_user(db, user)
 
-    return JSONResponse({'result': True, 'access_token': create_access_token(user_data, timedelta(weeks=+4))})
+    payload = {key: user_data[key] for key in [
+        'email', 'email_verified', 'name', 'picture', 'locale']}
+
+    return JSONResponse({'result': True, 'access_token': create_access_token(payload, timedelta(weeks=+4))})
 
 
 # {'iss': 'https://accounts.google.com', 'azp': '153729250130-mgekntsf4mea7os4pbhga4elull61bu8.apps.googleusercontent.com',
