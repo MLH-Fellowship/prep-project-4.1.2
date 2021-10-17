@@ -1,99 +1,53 @@
-import React, { useEffect, useState } from 'react';
+import React, { lazy, Suspense } from 'react';
 
 // Libraries
-import styled from 'styled-components';
+import { Router, Route, Switch } from 'react-router-dom';
 
 // Assets
-import logo from './mlh-prep.png';
+import history from './utils/createBrowserHistory';
 
-import WeatherDetails from './components/WeatherDetails/WeatherDetails';
+// State Handlers
+import { WeatherProvider } from './store/contexts/weather.context';
 
-const Logo = styled.img`
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 20%;
-  margin-top: 20px;
-`;
+// components
+import { DynamicBackground } from './components/DynamicBackground';
+/**
+ * React has a feature where the production code can
+ * be splitted into chunks instead of one single file
+ * which helps tremendously for reducing loading times
+ * - the function 'lazy' splits the code as per different pages
+ *   i.e. the code for home page loads first then for the other pages
+ * - the component 'Suspense' helps to show a loading component
+ *   when the code is being fetched asynchronously
+ * - lazy and Suspense should always be used simultaneously
+ *
+ * => Steps to add new pages
+ * 1. As show below, create a component using lazy function.
+ *    Add the location of the page to be loaded.
+ * 2. Inside the Switch component, add a new Route component with
+ *    the appropriate component and the link for it.
+ */
+const AsyncWeather = lazy(() => import('./pages/Weather'));
+const AsyncError = lazy(() => import('./pages/Error'));
 
-const Input = styled.input`
-  padding: 10px;
-  border-radius: 4px;
-  border: 10px;
-  width: 200px;
-`;
+const App = () => (
+    <Router history={history}>
+      <WeatherProvider>
+        <Suspense fallback={<div>Loading...</div>}>
+          <Switch>
+            <Route exact path='/'>
+              <DynamicBackground query='storm'>
+                <AsyncWeather />
+              </DynamicBackground>
+            </Route>
 
-const Results = styled.div`
-  background-color: white;
-  margin-left: 150px;
-  margin-right: 150px;
-  margin-top: 20px;
-  border-radius: 8px;
-  color: black;
-  padding: 10px;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-`;
-
-function App() {
-  const [error, setError] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [city, setCity] = useState('New York City');
-  const [results, setResults] = useState(null);
-  const [lat, setLat] = useState();
-  const [long, setLong] = useState();
-
-  useEffect(() => {
-    fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric` +
-        `&appid=${process.env.REACT_APP_APIKEY}`,
-    )
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          if (result.cod !== 200) {
-            setIsLoaded(false);
-          } else {
-            setIsLoaded(true);
-            setResults(result);
-            setLat(result.coord.lat);
-            setLong(result.coord.lon);
-          }
-        },
-        (err) => {
-          setIsLoaded(true);
-          setError(err);
-        },
-      );
-  }, [city]);
-
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
-
-  return (
-    <>
-      <Logo src={logo} alt='MLH Prep Logo' />
-      <div>
-        <h2>Enter a city below 👇</h2>
-        <Input type='text' value={city} onChange={(event) => setCity(event.target.value)} />
-        <Results>
-          {!isLoaded && <h2>Loading...</h2>}
-          {isLoaded && results && (
-            <>
-              <h3>{results.weather[0].main}</h3>
-              <p>Feels like {results.main.feels_like}°C</p>
-              <i>
-                <p>
-                  {results.name}, {results.sys.country}
-                </p>
-              </i>
-            </>
-          )}
-        </Results>
-      </div>
-      {isLoaded && lat && long && <WeatherDetails city={city} lat={lat} long={long} />}
-    </>
+            <Route exact path='*'>
+              <AsyncError />
+            </Route>
+          </Switch>
+        </Suspense>
+      </WeatherProvider>
+    </Router>
   );
-}
 
 export default App;
