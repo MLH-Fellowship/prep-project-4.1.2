@@ -1,7 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 // Libraries
 import styled from 'styled-components';
+
+// Components
+import Modal from '../components/modal/Modal';
 
 // Assets
 import logo from '../mlh-prep.png';
@@ -44,6 +47,7 @@ const Results = styled.div`
 
 function App() {
   const [state, dispatch] = useWeather();
+  const [showModal] = useState(true);
 
   useEffect(() => {
     fetch(
@@ -95,12 +99,12 @@ function App() {
         <Input
           type='text'
           value={state.city}
-          onChange={(event) =>
+          onChange={(event) => {
             dispatch({
               type: WeatherActionTypes.UpdateLocation,
               payload: event.target.value,
-            })
-          }
+            });
+          }}
         />
         <Results>
           {!state.isLoaded && <h2>Loading...</h2>}
@@ -117,6 +121,8 @@ function App() {
           )}
         </Results>
       </div>
+
+      <Modal showModal={showModal} />
     </>
   );
 }
