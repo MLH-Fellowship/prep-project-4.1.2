@@ -5,6 +5,7 @@ import styled from 'styled-components';
 
 // Components
 import Input from './Input';
+import Map from './Map';
 
 // State handlers
 import { useWeather } from '../../store/contexts/weather.context';
@@ -89,6 +90,8 @@ const SearchModal = ({ showModal, onClick }) => {
             });
           }}
         />
+
+        <Map />
 
         <ButtonsContainer>
           <Button onClick={onClick}>Cancel</Button>
