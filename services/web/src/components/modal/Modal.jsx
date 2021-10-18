@@ -82,10 +82,10 @@ const SearchModal = ({ showModal, onClick }) => {
       <ModalContainer>
         <Input
           type='text'
-          value={state.city}
+          value={state.location.city}
           onChange={(event) => {
             dispatch({
-              type: WeatherActionTypes.UpdateLocation,
+              type: WeatherActionTypes.UpdateCity,
               payload: event.target.value,
             });
           }}

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 // Libraries
 import styled from 'styled-components';
+import axios from 'axios';
 
 // Components
 import Modal from '../components/modal/Modal';
@@ -43,42 +44,58 @@ function App() {
   const [showModal, setShowModal] = useState(true);
 
   useEffect(() => {
-    fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=${state.city}&units=metric` +
-        `&appid=${process.env.REACT_APP_APIKEY}`,
-    )
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          if (result.cod !== 200) {
-            dispatch({
-              type: WeatherActionTypes.UpdateWeatherDetails,
-              payload: {
-                results: null,
-                isLoaded: false,
-              },
-            });
-          } else {
-            dispatch({
-              type: WeatherActionTypes.UpdateWeatherDetails,
-              payload: {
-                results: result,
-                isLoaded: true,
-              },
-            });
-          }
-        },
-        (err) => {
-          dispatch({
-            type: WeatherActionTypes.UpdateWeatherDetails,
-            payload: {
-              error: err,
-              isLoaded: false,
-            },
-          });
-        },
-      );
-  }, [state.city, dispatch]);
+    const fetchWeatherDetails = async () => {
+      let API_URL = '';
+
+      if (state.location.isCityLatestUpdate) {
+        API_URL =
+          `https://api.openweathermap.org/data/2.5/weather?q=${state.location.city}&units=metric` +
+          `&appid=${process.env.REACT_APP_APIKEY}`;
+      } else {
+        API_URL =
+          // eslint-disable-next-line max-len
+          `https://api.openweathermap.org/data/2.5/onecall?lat=${state.location.coords.lat}&lon=${state.location.coords.lng}&exclude={part}` +
+          `&appid=${process.env.REACT_APP_APIKEY}`;
+      }
+
+      try {
+        const { data } = await axios.get(API_URL);
+
+        const results = data.cod === 200 ? data : null;
+        const isLoaded = data.cod === 200;
+
+        dispatch({
+          type: WeatherActionTypes.UpdateWeatherDetails,
+          payload: {
+            results,
+            isLoaded,
+          },
+        });
+
+        console.log(data);
+
+        // if (state.location.isCityLatestUpdate) {
+        //   dispatch({
+        //   type: WeatherActionTypes.UpdateWeatherDetails,
+        //   payload: {
+        //     results,
+        //     isLoaded,
+        //   },
+        // });
+        // }
+      } catch (error) {
+        dispatch({
+          type: WeatherActionTypes.UpdateWeatherDetails,
+          payload: {
+            error,
+            isLoaded: false,
+          },
+        });
+      }
+    };
+
+    fetchWeatherDetails();
+  }, [dispatch, state.location.city, state.location.coords, state.location.isCityLatestUpdate]);
 
   if (state.error) {
     return <div>Error: {state.error.message}</div>;
@@ -95,7 +112,7 @@ function App() {
           onKeyDown={() => setShowModal(true)}
           onClick={() => setShowModal(true)}
         >
-          <h1 style={{ marginTop: '1.3rem', fontSize: '2.4rem' }}>{state.city}</h1>
+          <h1 style={{ marginTop: '1.3rem', fontSize: '2.4rem' }}>{state.location.city}</h1>
         </div>
 
         <Results>
