@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 
 // Libraries
 import styled from 'styled-components';
 
 // Assets
 import logo from '../mlh-prep.png';
+
+import WeatherDetails from '../components/WeatherDetails/index';
 
 // State handlers
 import { useWeather } from '../store/contexts/weather.context';
@@ -44,6 +46,8 @@ const Results = styled.div`
 
 function App() {
   const [state, dispatch] = useWeather();
+  const [lat, setLat] = useState();
+  const [long, setLong] = useState();
 
   useEffect(() => {
     fetch(
@@ -69,6 +73,8 @@ function App() {
                 isLoaded: true,
               },
             });
+            setLat(result.coord.lat);
+            setLong(result.coord.lon);
           }
         },
         (err) => {
@@ -117,6 +123,7 @@ function App() {
           )}
         </Results>
       </div>
+      {state.isLoaded && lat && long && <WeatherDetails  lat={lat} long={long} />}
     </>
   );
 }
