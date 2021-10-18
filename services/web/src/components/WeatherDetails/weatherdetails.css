@@ -7,21 +7,21 @@
 }
 
 .todaysWeather {
-  background-color: rgba(0,0,0, 0.1);
+  background-color: rgba(0, 0, 0, 0.1);
   width: 100%;
-  padding: 20px;
-  max-width: 500px;
   border: 1px solid whitesmoke;
   border-radius: 12px;
+  max-width: 500px;
+  padding: 20px;
   margin: 10px 0;
 }
 
 .weeklyWeather {
-  background-color: rgba(0,0,0, 0.1);
-  border: 1px solid whitesmoke;
-  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.1);
   justify-content: center;
+  border: 1px solid whitesmoke;
   border-radius: 12px;
+  padding: 20px;
   margin: 10px 0;
 }
 th {
@@ -31,23 +31,19 @@ th {
 th,
 th,
 td {
-  padding: 5px;
   text-align: center;
   vertical-align: middle;
+  padding: 5px;
 }
 
 .weekDays {
   text-align: left;
 }
-.city  {
+.city {
   font-size: 2rem;
 }
 
-.weather-info-title{
-  display: block;
-}
-
-.temp  {
+.temp {
   font-size: 2rem;
   font-weight: 500;
   margin: 0;
@@ -73,16 +69,20 @@ td {
 .weather-infos {
   display: flex;
   flex-wrap: wrap;
-  margin: 20px 0px;
-  justify-content: space-between;
-  padding: 10px;
-  grid-template-columns: repeat(auto-fill, 1fr 1fr 2fr 1fr);
-  gap: 10px;
   align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 20px 0px;
+  padding: 10px;
 }
 .weather-info {
+  text-align: left;
   font-size: 0.9rem;
   padding: 4px;
-  text-align: left;
-  display: inline block;
+  margin: 3px;
+}
+
+.weather-info-title {
+  display: block;
+  margin-bottom: 10px;
 }
