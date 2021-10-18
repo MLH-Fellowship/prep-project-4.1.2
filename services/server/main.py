@@ -7,6 +7,7 @@ from starlette.middleware.sessions import SessionMiddleware
 from starlette.responses import HTMLResponse
 from starlette.requests import Request
 from fastapi.middleware.cors import CORSMiddleware
+from services.server.routers.subscribe import webhook
 from db import models
 from db.database import engine
 from sqlalchemy.orm import Session
@@ -20,6 +21,8 @@ app = FastAPI()
 
 # use app.include_router to add another app's routes
 app.include_router(oauth.router, prefix="/oauth")
+
+app.include_router(webhook.router)
 
 ALLOWED_HOSTS = ["*"]
 
