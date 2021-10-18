@@ -11,20 +11,24 @@ const WeeklyWeather = ({ data }) => {
   return (
     <div className='weeklyWeather'>
       <table>
-        <tr>
-          <th className='weekDays'>DAY</th>
-          <th> </th>
-          <th>HIGH</th>
-          <th>LOW</th>
-        </tr>
-        {data.map((day) => (
-          <tr key={day.dt}>
-            <td className='weekDays'>{toDateTime(day.dt)}</td>
-            <td>{getIcon(day.weather[0].icon)}</td>
-            <td>{Math.round(day.temp.max)}</td>
-            <td>{Math.round(day.temp.min)}</td>
+        <thead>
+          <tr>
+            <th className='weekDays'>DAY</th>
+            <th> </th>
+            <th>HIGH</th>
+            <th>LOW</th>
           </tr>
-        ))}
+        </thead>
+        <tbody>
+          {data.map((day) => (
+            <tr key={day.dt}>
+              <td className='weekDays'>{toDateTime(day.dt)}</td>
+              <td>{getIcon(day.weather[0].icon)}</td>
+              <td>{Math.round(day.temp.max)}</td>
+              <td>{Math.round(day.temp.min)}</td>
+            </tr>
+          ))}
+        </tbody>
       </table>
     </div>
   );
