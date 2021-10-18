@@ -5,7 +5,7 @@ import './weatherdetails.css';
 import TodaysWeather from './TodaysWeather';
 import WeeklyWeather from './WeeklyWeather';
 
-const WeatherDetails = ({ city, lat, long }) => {
+const WeatherDetails = ({ lat, long }) => {
   const [currentData, setCurrentData] = useState();
   const [weekData, setWeekData] = useState();
 
@@ -22,7 +22,7 @@ const WeatherDetails = ({ city, lat, long }) => {
   }, [lat, long]);
   return (
     <div className='weatherDetails'>
-      {currentData && <TodaysWeather data={currentData} city={city} />}
+      {currentData && weekData && <TodaysWeather data={currentData} pop={weekData[0].pop} />}
       {weekData && <WeeklyWeather data={weekData} />}
     </div>
   );

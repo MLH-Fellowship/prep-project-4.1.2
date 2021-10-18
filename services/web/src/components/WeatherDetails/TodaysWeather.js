@@ -2,10 +2,8 @@ import React from 'react';
 
 import { useWeather } from '../../store/contexts/weather.context';
 
-
-const TodaysWeather = ({ data }) => {
+const TodaysWeather = ({ data, pop }) => {
   const state = useWeather()[0];
-
 
   function toTime(dt) {
     const date = new Date(dt * 1000);
@@ -34,11 +32,11 @@ const TodaysWeather = ({ data }) => {
   return (
     <div className='todaysWeather'>
       <div className='location-temp'>
-        <span className="city">{state.results.name}</span>
+        <span className='city'>{state.results.name}</span>
         <div>
-          <span className="temp">{Math.round(data.temp)}°C</span>
+          <span className='temp'>{Math.round(data.temp)}°C</span>
           <br />
-          {data.weather[0].description}
+          {data.weather.description}
         </div>
       </div>
       <div className='date'>
@@ -47,43 +45,43 @@ const TodaysWeather = ({ data }) => {
       </div>
       <div className='weather-infos'>
         <div className='weather-info'>
-        <span className="weather-info-title">Sunrise</span> 
+          <span className='weather-info-title'>Sunrise</span>
           {toTime(data.sunrise)}
         </div>
 
         <div className='weather-info'>
-        <span className="weather-info-title">Sunset</span>
+          <span className='weather-info-title'>Sunset</span>
           {toTime(data.sunset)}
         </div>
 
         <div className='weather-info'>
-        <span className="weather-info-title">Chance of Rain</span>
-          10%
+          <span className='weather-info-title'>Chance of Rain</span>
+          {pop}%
         </div>
 
         <div className='weather-info'>
-        <span className="weather-info-title">Feels like</span>
-          {data.feels_like}
+          <span className='weather-info-title'>Feels like</span>
+          {data.feels_like}°C
         </div>
 
         <div className='weather-info'>
-        <span className="weather-info-title">Humidity</span>
-           {data.humidity}
+          <span className='weather-info-title'>Humidity</span>
+          {data.humidity}%
         </div>
 
         <div className='weather-info'>
-        <span className="weather-info-title">Wind</span>
-           {data.wind_speed}
+          <span className='weather-info-title'>Wind</span>
+          {data.wind_speed}
         </div>
 
         <div className='weather-info'>
-         <span className="weather-info-title">Visibility</span>
+          <span className='weather-info-title'>Visibility</span>
           {data.visibility}
         </div>
 
         <div className='weather-info'>
-        <span className="weather-info-title">Pressure</span>
-           {data.pressure}
+          <span className='weather-info-title'>Pressure</span>
+          {data.pressure}
         </div>
       </div>
     </div>
