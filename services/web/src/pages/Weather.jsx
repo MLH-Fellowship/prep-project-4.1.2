@@ -6,7 +6,7 @@ import styled from 'styled-components';
 // Assets
 import logo from '../mlh-prep.png';
 
-import WeatherDetails from '../components/WeatherDetails/WeatherDetails';
+import WeatherDetails from '../components/WeatherDetails/index';
 
 // State handlers
 import { useWeather } from '../store/contexts/weather.context';

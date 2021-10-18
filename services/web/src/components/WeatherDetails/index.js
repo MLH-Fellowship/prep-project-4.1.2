@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
+import './weatherdetails.css';
+
 import TodaysWeather from './TodaysWeather';
 import WeeklyWeather from './WeeklyWeather';
 

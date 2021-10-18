@@ -1,0 +1,30 @@
+.weatherDetails {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin: auto;
+  width: 60%;
+}
+
+.weeklyWeather {
+  border: 1px solid whitesmoke;
+  padding: 20px;
+  justify-content: center;
+  border-radius: 12px;
+  margin: 10px 0;
+}
+th {
+  font-weight: 550;
+}
+
+th,
+th,
+td {
+  padding: 5px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.weekDays {
+  text-align: left;
+}

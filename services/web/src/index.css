@@ -195,22 +195,3 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
-
-/*WeatherDetails*/
-.weatherDetails {
-  border: 1px solid red;
-  width: 80%;
-  margin: auto;
-}
-
-.todaysWeather {
-  border: 1px solid green;
-  width: 60%;
-  margin: auto;
-}
-
-.weeklyWeather {
-  border: 1px solid violet;
-  width: 40%;
-  margin: auto;
-}
