@@ -27,13 +27,6 @@ const Logo = styled.img`
   margin-top: 20px;
 `;
 
-const Input = styled.input`
-  padding: 10px;
-  border-radius: 4px;
-  border: 10px;
-  width: 200px;
-`;
-
 const Results = styled.div`
   background-color: white;
   margin-left: 150px;
@@ -47,7 +40,7 @@ const Results = styled.div`
 
 function App() {
   const [state, dispatch] = useWeather();
-  const [showModal] = useState(true);
+  const [showModal, setShowModal] = useState(true);
 
   useEffect(() => {
     fetch(
@@ -95,17 +88,16 @@ function App() {
     <>
       <Logo src={logo} alt='MLH Prep Logo' />
       <div>
-        <h2>Enter a city below 👇</h2>
-        <Input
-          type='text'
-          value={state.city}
-          onChange={(event) => {
-            dispatch({
-              type: WeatherActionTypes.UpdateLocation,
-              payload: event.target.value,
-            });
-          }}
-        />
+        <h2>Click on the city 👇 to update location</h2>
+        <div
+          role='button'
+          tabIndex={0}
+          onKeyDown={() => setShowModal(true)}
+          onClick={() => setShowModal(true)}
+        >
+          <h1 style={{ marginTop: '1.3rem', fontSize: '2.4rem' }}>{state.city}</h1>
+        </div>
+
         <Results>
           {!state.isLoaded && <h2>Loading...</h2>}
           {state.isLoaded && state.results && (
@@ -122,7 +114,7 @@ function App() {
         </Results>
       </div>
 
-      <Modal showModal={showModal} />
+      <Modal showModal={showModal} onClick={() => setShowModal(false)} />
     </>
   );
 }

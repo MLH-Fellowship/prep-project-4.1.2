@@ -3,6 +3,13 @@ import React from 'react';
 // Libraries
 import styled from 'styled-components';
 
+// Components
+import Input from './Input';
+
+// State handlers
+import { useWeather } from '../../store/contexts/weather.context';
+import { WeatherActionTypes } from '../../store/reducers/weather.reducer';
+
 const ModalBackground = styled.div`
   position: absolute;
   top: 0;
@@ -66,18 +73,31 @@ const Button = styled.button`
   }
 `;
 
-const SearchModal = ({ showModal }) => (
-  <ModalBackground showModal={showModal}>
-    <ModalContainer>
-      <h1>This is the Input</h1>
+const SearchModal = ({ showModal, onClick }) => {
+  const [state, dispatch] = useWeather();
 
-      <ButtonsContainer>
-        <Button>Cancel</Button>
+  return (
+    <ModalBackground showModal={showModal}>
+      <ModalContainer>
+        <Input
+          type='text'
+          value={state.city}
+          onChange={(event) => {
+            dispatch({
+              type: WeatherActionTypes.UpdateLocation,
+              payload: event.target.value,
+            });
+          }}
+        />
 
-        <Button>Proceed</Button>
-      </ButtonsContainer>
-    </ModalContainer>
-  </ModalBackground>
-);
+        <ButtonsContainer>
+          <Button onClick={onClick}>Cancel</Button>
+
+          <Button onClick={onClick}>Proceed</Button>
+        </ButtonsContainer>
+      </ModalContainer>
+    </ModalBackground>
+  );
+};
 
 export default SearchModal;
