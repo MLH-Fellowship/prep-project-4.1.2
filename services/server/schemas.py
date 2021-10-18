@@ -14,4 +14,3 @@ class User(UserBase):
 
 class Comment(BaseModel):
     comment: str
-    email: str

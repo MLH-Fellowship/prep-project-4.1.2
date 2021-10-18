@@ -25,15 +25,10 @@ oauth = OAuth(starlette_config)
 
 class Comment(BaseModel):
     comment: str
-    email: str
 
 
-@comment.post('/api/comments', response_model=User)
-async def email_subscribe(db: Session = Depends(get_db), user: User = Depends(get_current_user)):
-    email = user.email
-    user_comment = user.comment
-    user_id = user.id
-    item = Comment(user_comment, email)
+@comment.post('/', response_model=User)
+async def email_subscribe(place_id: int, item: Comment, db: Session = Depends(get_db), user: User = Depends(get_current_user)):
 
-    return crud.create_user_comment(db=db, item=item, user_id=user_id)
+    return crud.create_user_comment(db, item, place_id, user.email)
 
