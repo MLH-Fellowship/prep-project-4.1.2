@@ -21,8 +21,8 @@ const WeeklyWeather = ({ data }) => {
           <tr key={day.dt}>
             <td className='weekDays'>{toDateTime(day.dt)}</td>
             <td>{getIcon(day.weather[0].icon)}</td>
-            <td>{Math.round(day.temp.min)}</td>
             <td>{Math.round(day.temp.max)}</td>
+            <td>{Math.round(day.temp.min)}</td>
           </tr>
         ))}
       </table>
