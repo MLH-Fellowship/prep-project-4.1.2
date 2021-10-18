@@ -33,3 +33,11 @@ def create_user(db: Session, user: schemas.User):
     db.commit()
     db.refresh(db_user)
     return db_user
+
+
+def create_user_comment(db: Session, item: schemas.Comment, user_id: int):
+    db_item = models.Comment(**item.dict(), owner_id=user_id)
+    db.add(db_item)
+    db.commit()
+    db.refresh(db_item)
+    return db_item

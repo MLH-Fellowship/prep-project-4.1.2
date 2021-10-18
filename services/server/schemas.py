@@ -10,3 +10,8 @@ class User(UserBase):
 
     class Config:
         orm_mode = True
+
+
+class Comment(BaseModel):
+    comment: str
+    email: str
