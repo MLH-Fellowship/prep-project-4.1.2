@@ -5,64 +5,64 @@
  */
 
 export const initialState = {
-  city: 'New York',
-  results: null,
+  loading: false,
   error: null,
-  isLoaded: false,
   location: {
     // Location Details
     city: 'New York',
+    country: 'USA',
     coords: {
       lat: 40.7128,
       lng: -74.006,
     },
-    isCityLatestUpdate: true,
-    // Async Call Details
-    results: null,
-    error: null,
-    isLoaded: false,
   },
+  weather: {
+    description: null,
+    temp: null,
+    date: null,
+    day: null,
+    air_qi: null,
+    sun: {
+      rise: null,
+      set: null,
+    },
+    rain: {
+      chance: null,
+      humidity: null,
+      precipitation: null,
+    },
+    wind: {
+      speed: null,
+      pressure: null,
+    },
+  },
+  /**
+   * Object Structure of week array
+   * {
+   *    day: 'Tuesday',
+   *    feels_like: 'Sunny',
+   *    temp: {
+   *      high: 33,
+   *      low: 34,
+   *    }
+   * }
+   */
+  weekly: [],
 };
 
 export const WeatherActionTypes = {
-  UpdateLocation: 'Update weather location',
   UpdateWeatherDetails: 'Update weather details',
   UpdateErrorStatus: 'Update fetch error details',
-  // Location Update Details
-  UpdateCity: 'Update city location',
   UpdateCoords: 'Update location coordinates',
 };
 
 export default function WeatherReducer(state, action) {
   switch (action.type) {
-    case WeatherActionTypes.UpdateLocation:
-      return {
-        ...state,
-        city: action.payload,
-      };
-
-    case WeatherActionTypes.UpdateWeatherDetails:
-      return {
-        ...state,
-        results: action.payload.results,
-        isLoaded: action.payload.isLoaded,
-      };
-
     case WeatherActionTypes.UpdateErrorStatus:
       return {
         ...state,
-        isLoaded: action.payload.isLoaded,
+        loading: action.payload.loading,
         error: action.payload.error,
-      };
-
-    case WeatherActionTypes.UpdateCity:
-      return {
-        ...state,
-        location: {
-          ...state.location,
-          city: action.payload,
-          isCityLatestUpdate: true,
-        },
       };
 
     case WeatherActionTypes.UpdateCoords:
@@ -70,8 +70,40 @@ export default function WeatherReducer(state, action) {
         ...state,
         location: {
           ...state.location,
-          coords: action.payload,
-          isCityLatestUpdate: false,
+          coords: {
+            lat: action.payload.lat,
+            lng: action.payload.lng,
+          },
+          city: action.payload.city,
+          country: action.payload.country,
+        },
+      };
+
+    case WeatherActionTypes.UpdateWeatherDetails:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        weather: {
+          ...state.weather,
+          description: action.payload.current.weather[0].description,
+          temp: action.payload.current.feels_like,
+          date: new Date().toUTCString().slice(5, 16),
+          day: new Date().getDay(),
+          air_qi: action.payload.current.visibility,
+          sun: {
+            rise: action.payload.current.sunrise,
+            set: action.payload.current.sunset,
+          },
+          rain: {
+            humidity: action.payload.current.humidity,
+            chance: action.payload.current.clouds,
+            precipitation: action.payload.current.rain,
+          },
+          wind: {
+            speed: action.payload.current.wind_speed,
+            pressure: action.payload.current.pressure,
+          },
         },
       };
 

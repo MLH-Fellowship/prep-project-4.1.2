@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 // Libraries
 import styled from 'styled-components';
 import axios from 'axios';
+import moment from 'moment';
 
 // Components
 import Modal from '../components/modal/Modal';
@@ -45,50 +46,31 @@ function App() {
 
   useEffect(() => {
     const fetchWeatherDetails = async () => {
-      let API_URL = '';
-
-      if (state.location.isCityLatestUpdate) {
-        API_URL =
-          `https://api.openweathermap.org/data/2.5/weather?q=${state.location.city}&units=metric` +
-          `&appid=${process.env.REACT_APP_APIKEY}`;
-      } else {
-        API_URL =
-          // eslint-disable-next-line max-len
-          `https://api.openweathermap.org/data/2.5/onecall?lat=${state.location.coords.lat}&lon=${state.location.coords.lng}&exclude={part}` +
-          `&appid=${process.env.REACT_APP_APIKEY}`;
-      }
+      const API_URL =
+        // eslint-disable-next-line max-len
+        `https://api.openweathermap.org/data/2.5/onecall?lat=${state.location.coords.lat}&lon=${state.location.coords.lng}&exclude={part}` +
+        `&appid=${process.env.REACT_APP_APIKEY}`;
 
       try {
-        const { data } = await axios.get(API_URL);
-
-        const results = data.cod === 200 ? data : null;
-        const isLoaded = data.cod === 200;
-
         dispatch({
-          type: WeatherActionTypes.UpdateWeatherDetails,
+          type: WeatherActionTypes.UpdateErrorStatus,
           payload: {
-            results,
-            isLoaded,
+            error: null,
+            loading: true,
           },
         });
+        const { data } = await axios.get(API_URL);
 
-        console.log(data);
-
-        // if (state.location.isCityLatestUpdate) {
-        //   dispatch({
-        //   type: WeatherActionTypes.UpdateWeatherDetails,
-        //   payload: {
-        //     results,
-        //     isLoaded,
-        //   },
-        // });
-        // }
-      } catch (error) {
         dispatch({
           type: WeatherActionTypes.UpdateWeatherDetails,
+          payload: data,
+        });
+      } catch (error) {
+        dispatch({
+          type: WeatherActionTypes.UpdateErrorStatus,
           payload: {
             error,
-            isLoaded: false,
+            loading: false,
           },
         });
       }
@@ -116,17 +98,22 @@ function App() {
         </div>
 
         <Results>
-          {!state.isLoaded && <h2>Loading...</h2>}
-          {state.isLoaded && state.results && (
-            <>
-              <h3>{state.results.weather[0].main}</h3>
-              <p>Feels like {state.results.main.feels_like}°C</p>
-              <i>
-                <p>
-                  {state.results.name}, {state.results.sys.country}
-                </p>
-              </i>
-            </>
+          {state.loading ? (
+            'Loading....'
+          ) : (
+            <div>
+              <h2>
+                {state.location.city}, {state.location.country}
+              </h2>
+              <h2 style={{ marginTop: 20 }}>{state.weather.description}</h2>
+              <h2 style={{ marginTop: 8 }}>Feels Like: {state.weather.temp}</h2>
+              <h2 style={{ marginTop: 8 }}>
+                Sun Rise: {moment(state.weather.sun.rise * 1000).format('LT')}
+              </h2>
+              <h2 style={{ marginTop: 8 }}>
+                Sun Set: {moment(state.weather.sun.set * 1000).format('LT')}
+              </h2>
+            </div>
           )}
         </Results>
       </div>
