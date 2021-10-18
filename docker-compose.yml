@@ -27,18 +27,18 @@ services:
     ports:
       - "5000:80"
 
-  web:
-    build:
-      context: ./services/web
-      dockerfile: Dockerfile.dev
-    container_name: web
-    depends_on:
-      - server
-    volumes:
-      - ./services/web/:/usr/app
-      - node_modules_web:/usr/app/node_modules
-    ports:
-      - "3000:3000"
+  # web:
+  #   build:
+  #     context: ./services/web
+  #     dockerfile: Dockerfile.dev
+  #   container_name: web
+  #   depends_on:
+  #     - server
+  #   volumes:
+  #     - ./services/web/:/usr/app
+  #     - node_modules_web:/usr/app/node_modules
+  #   ports:
+  #     - "3000:3000"
 
 volumes:
   dbdata:

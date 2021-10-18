@@ -1,17 +1,16 @@
-from fastapi import APIRouter
-from services.server.db import models
-from services.server.schemas import User
-from services.server.verify import get_current_user
-from services.server.db.crud import get_db
-from sqlalchemy.orm import Session
+from fastapi import APIRouter, Depends
+from db import models
+from schemas import User
+from verify import get_current_user
+from db.crud import get_db
 import re
 
 router = APIRouter(
    tags = ["webhook"]
 )
 
-@router.post('/subscribe/webhook', response_model = User, user: User = Depends(get_current_user)).
-async def webhook_subscribe( webhook_url : str, trigger_name : str, location : str):
+@router.post('/subscribe/webhook', response_model = User)
+async def webhook_subscribe( webhook_url : str, trigger_name : str, location : str, user: User = Depends(get_current_user)):
 
     webhook_regex = re.compile("https:\/\/(www\.|)(discord|discordapp)\.com\/api\/webhooks\/([\d]{18})\/([a-z0-9_-]+)")
     filtering = webhook_regex.match(webhook_url)

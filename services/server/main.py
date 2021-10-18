@@ -7,7 +7,7 @@ from starlette.middleware.sessions import SessionMiddleware
 from starlette.responses import HTMLResponse
 from starlette.requests import Request
 from fastapi.middleware.cors import CORSMiddleware
-from services.server.routers.subscribe import webhook
+from routers.subscribe import webhook
 from db import models
 from db.database import engine
 from sqlalchemy.orm import Session
