@@ -1,7 +1,12 @@
 import React from 'react';
-// import getIcon from './utils';
 
-const TodaysWeather = ({ data, city }) => {
+import { useWeather } from '../../store/contexts/weather.context';
+
+
+const TodaysWeather = ({ data }) => {
+  const state = useWeather()[0];
+
+
   function toTime(dt) {
     const date = new Date(dt * 1000);
     const hours = date.getHours();
@@ -9,7 +14,6 @@ const TodaysWeather = ({ data, city }) => {
     const time = `${hours} : ${minutes}`;
     return time;
   }
-  console.log(data);
 
   function toDate(dt) {
     const date = new Date(dt * 1000);
@@ -30,9 +34,10 @@ const TodaysWeather = ({ data, city }) => {
   return (
     <div className='todaysWeather'>
       <div className='location-temp'>
-        <h1>{city}</h1>
-        <div className='temp'>
-          <h1>{Math.round(data.temp)}°C</h1>
+        <span className="city">{state.results.name}</span>
+        <div>
+          <span className="temp">{Math.round(data.temp)}°C</span>
+          <br />
           {data.weather[0].description}
         </div>
       </div>
@@ -42,42 +47,43 @@ const TodaysWeather = ({ data, city }) => {
       </div>
       <div className='weather-infos'>
         <div className='weather-info'>
-          Sunrise <br />
+        <span className="weather-info-title">Sunrise</span> 
           {toTime(data.sunrise)}
         </div>
+
         <div className='weather-info'>
-          Sunset
-          <br />
+        <span className="weather-info-title">Sunset</span>
           {toTime(data.sunset)}
         </div>
+
         <div className='weather-info'>
-          Chance of Rain
-          <br />
+        <span className="weather-info-title">Chance of Rain</span>
           10%
         </div>
+
         <div className='weather-info'>
-          Feels like
-          <br />
+        <span className="weather-info-title">Feels like</span>
           {data.feels_like}
         </div>
 
         <div className='weather-info'>
-          Humidity
-          <br /> {data.humidity}
-        </div>
-        <div className='weather-info'>
-          Wind
-          <br /> {data.wind_speed}
+        <span className="weather-info-title">Humidity</span>
+           {data.humidity}
         </div>
 
         <div className='weather-info'>
-          Visibility
-          <br />
+        <span className="weather-info-title">Wind</span>
+           {data.wind_speed}
+        </div>
+
+        <div className='weather-info'>
+         <span className="weather-info-title">Visibility</span>
           {data.visibility}
         </div>
+
         <div className='weather-info'>
-          Pressure
-          <br /> {data.pressure}
+        <span className="weather-info-title">Pressure</span>
+           {data.pressure}
         </div>
       </div>
     </div>

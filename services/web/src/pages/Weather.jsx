@@ -123,7 +123,7 @@ function App() {
           )}
         </Results>
       </div>
-      {state.isLoaded && lat && long && <WeatherDetails city={state.city} lat={lat} long={long} />}
+      {state.isLoaded && lat && long && <WeatherDetails  lat={lat} long={long} />}
     </>
   );
 }

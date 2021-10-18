@@ -7,6 +7,7 @@
 }
 
 .todaysWeather {
+  background-color: rgba(0,0,0, 0.1);
   width: 100%;
   padding: 20px;
   max-width: 500px;
@@ -16,6 +17,7 @@
 }
 
 .weeklyWeather {
+  background-color: rgba(0,0,0, 0.1);
   border: 1px solid whitesmoke;
   padding: 20px;
   justify-content: center;
@@ -37,14 +39,19 @@ td {
 .weekDays {
   text-align: left;
 }
-
-h1 {
-  font-size: 32px;
+.city  {
+  font-size: 2rem;
 }
 
-.temp > h1 {
-  font-size: 64px;
+.weather-info-title{
+  display: block;
+}
+
+.temp  {
+  font-size: 2rem;
   font-weight: 500;
+  margin: 0;
+  padding: 0;
 }
 
 .location-temp {
