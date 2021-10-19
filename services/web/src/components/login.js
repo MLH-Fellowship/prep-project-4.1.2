@@ -3,22 +3,21 @@ import { useHistory } from 'react-router-dom';
 import { AccessTokenContext } from '../store/contexts/accessToken.context';
 
 export const Login = () => {
-  const { user, setAccessToken } = useContext(AccessTokenContext);
+  const { user } = useContext(AccessTokenContext);
   const history = useHistory();
+
+  if (user) {
+    history.push('/');
+  }
 
   return (
     <button
-      onClick={() => {
-        if (!user) {
-          window.location.href = `${process.env.REACT_APP_BACKEND_HOST}/oauth/login_redirect`;
-        } else {
-          setAccessToken(null);
-          history.push('/');
-        }
-      }}
+      onClick={() =>
+        (window.location.href = `${process.env.REACT_APP_BACKEND_HOST}/oauth/login_redirect`)
+      }
       type='button'
     >
-      {!user ? 'Login via Google' : 'Logout'}
+      Login via Google
     </button>
   );
 };

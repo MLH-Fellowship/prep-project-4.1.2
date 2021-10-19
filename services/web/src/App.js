@@ -13,6 +13,7 @@ import { WeatherProvider } from './store/contexts/weather.context';
 import { DynamicBackground } from './components/DynamicBackground';
 import { AccessTokenProvider } from './store/contexts/accessToken.context';
 import { Oauth2Callback } from './components/oauth2callback';
+import { Login } from './components/login';
 /**
  * React has a feature where the production code can
  * be splitted into chunks instead of one single file
@@ -42,6 +43,9 @@ const App = () => (
               <DynamicBackground query='storm'>
                 <AsyncWeather />
               </DynamicBackground>
+            </Route>
+            <Route path='/login'>
+              <Login />
             </Route>
             <Route path='/oauth2callback'>
               <Oauth2Callback />

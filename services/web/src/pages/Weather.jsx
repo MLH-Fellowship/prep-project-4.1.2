@@ -1,17 +1,21 @@
-import React, { useEffect,useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 // Libraries
 import styled from 'styled-components';
+import axios from 'axios';
+import moment from 'moment';
+import { useHistory } from 'react-router-dom';
+
+// Components
+import Modal from '../components/modal/Modal';
 
 // Assets
 import logo from '../mlh-prep.png';
 
-import WeatherDetails from '../components/WeatherDetails/index';
-
 // State handlers
 import { useWeather } from '../store/contexts/weather.context';
 import { WeatherActionTypes } from '../store/reducers/weather.reducer';
-import { Login } from '../components/login';
+import { AccessTokenContext } from '../store/contexts/accessToken.context';
 
 /**
  * ! CHECKOUT the blog below for implementation details of
@@ -27,13 +31,6 @@ const Logo = styled.img`
   margin-top: 20px;
 `;
 
-const Input = styled.input`
-  padding: 10px;
-  border-radius: 4px;
-  border: 10px;
-  width: 200px;
-`;
-
 const Results = styled.div`
   background-color: white;
   margin-left: 150px;
@@ -47,48 +44,45 @@ const Results = styled.div`
 
 function App() {
   const [state, dispatch] = useWeather();
-  const [lat, setLat] = useState();
-  const [long, setLong] = useState();
+  const [showModal, setShowModal] = useState(true);
+  const { user, setAccessToken } = useContext(AccessTokenContext);
+  const history = useHistory();
 
   useEffect(() => {
-    fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=${state.city}&units=metric` +
-        `&appid=${process.env.REACT_APP_APIKEY}`,
-    )
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          if (result.cod !== 200) {
-            dispatch({
-              type: WeatherActionTypes.UpdateWeatherDetails,
-              payload: {
-                results: null,
-                isLoaded: false,
-              },
-            });
-          } else {
-            dispatch({
-              type: WeatherActionTypes.UpdateWeatherDetails,
-              payload: {
-                results: result,
-                isLoaded: true,
-              },
-            });
-            setLat(result.coord.lat);
-            setLong(result.coord.lon);
-          }
-        },
-        (err) => {
-          dispatch({
-            type: WeatherActionTypes.UpdateWeatherDetails,
-            payload: {
-              error: err,
-              isLoaded: false,
-            },
-          });
-        },
-      );
-  }, [state.city, dispatch]);
+    const fetchWeatherDetails = async () => {
+      const API_URL =
+        // eslint-disable-next-line max-len
+        `https://api.openweathermap.org/data/2.5/onecall?lat=${state.location.coords.lat}&lon=${state.location.coords.lng}&exclude={part}` +
+        `&appid=${process.env.REACT_APP_APIKEY}`;
+
+      try {
+        dispatch({
+          type: WeatherActionTypes.UpdateErrorStatus,
+          payload: {
+            error: null,
+            loading: true,
+          },
+        });
+        const { data } = await axios.get(API_URL);
+
+        dispatch({
+          type: WeatherActionTypes.UpdateWeatherDetails,
+          payload: data,
+        });
+      } catch (error) {
+        dispatch({
+          type: WeatherActionTypes.UpdateErrorStatus,
+          payload: {
+            error,
+            loading: false,
+          },
+        });
+      }
+    };
+
+    fetchWeatherDetails();
+  }, [dispatch, state.location.city, state.location.coords, state.location.isCityLatestUpdate]);
+
 
   if (state.error) {
     return <div>Error: {state.error.message}</div>;
@@ -97,35 +91,49 @@ function App() {
   return (
     <>
       <Logo src={logo} alt='MLH Prep Logo' />
-      <Login />
+      <button type="button" onClick={() => {
+        if (!user) {
+          history.push("/login")
+        } else {
+          setAccessToken(null);
+          history.push('/');
+        }
+      }}>
+        {!user ? 'Login via Google' : 'Logout'}
+      </button>
       <div>
-        <h2>Enter a city below 👇</h2>
-        <Input
-          type='text'
-          value={state.city}
-          onChange={(event) =>
-            dispatch({
-              type: WeatherActionTypes.UpdateLocation,
-              payload: event.target.value,
-            })
-          }
-        />
+        <h2>Click on the city 👇 to update location</h2>
+        <div
+          role='button'
+          tabIndex={0}
+          onKeyDown={() => setShowModal(true)}
+          onClick={() => setShowModal(true)}
+        >
+          <h1 style={{ marginTop: '1.3rem', fontSize: '2.4rem' }}>{state.location.city}</h1>
+        </div>
+
         <Results>
-          {!state.isLoaded && <h2>Loading...</h2>}
-          {state.isLoaded && state.results && (
-            <>
-              <h3>{state.results.weather[0].main}</h3>
-              <p>Feels like {state.results.main.feels_like}°C</p>
-              <i>
-                <p>
-                  {state.results.name}, {state.results.sys.country}
-                </p>
-              </i>
-            </>
+          {state.loading ? (
+            'Loading....'
+          ) : (
+            <div>
+              <h2>
+                {state.location.city}, {state.location.country}
+              </h2>
+              <h2 style={{ marginTop: 20 }}>{state.weather.description}</h2>
+              <h2 style={{ marginTop: 8 }}>Feels Like: {state.weather.temp}</h2>
+              <h2 style={{ marginTop: 8 }}>
+                Sun Rise: {moment(state.weather.sun.rise * 1000).format('LT')}
+              </h2>
+              <h2 style={{ marginTop: 8 }}>
+                Sun Set: {moment(state.weather.sun.set * 1000).format('LT')}
+              </h2>
+            </div>
           )}
         </Results>
       </div>
-      {state.isLoaded && lat && long && <WeatherDetails  lat={lat} long={long} />}
+
+      <Modal showModal={showModal} onClick={() => setShowModal(false)} />
     </>
   );
 }
