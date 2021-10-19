@@ -79,6 +79,7 @@ function App() {
     fetchWeatherDetails();
   }, [dispatch, state.location.city, state.location.coords, state.location.isCityLatestUpdate]);
 
+
   if (state.error) {
     return <div>Error: {state.error.message}</div>;
   }
