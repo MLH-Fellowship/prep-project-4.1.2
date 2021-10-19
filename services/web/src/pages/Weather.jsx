@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 // Libraries
 import styled from 'styled-components';
 import axios from 'axios';
 import moment from 'moment';
+import { useHistory } from 'react-router-dom';
 
 // Components
 import Modal from '../components/modal/Modal';
@@ -14,6 +15,7 @@ import logo from '../mlh-prep.png';
 // State handlers
 import { useWeather } from '../store/contexts/weather.context';
 import { WeatherActionTypes } from '../store/reducers/weather.reducer';
+import { AccessTokenContext } from '../store/contexts/accessToken.context';
 
 /**
  * ! CHECKOUT the blog below for implementation details of
@@ -43,6 +45,8 @@ const Results = styled.div`
 function App() {
   const [state, dispatch] = useWeather();
   const [showModal, setShowModal] = useState(true);
+  const { user, setAccessToken } = useContext(AccessTokenContext);
+  const history = useHistory();
 
   useEffect(() => {
     const fetchWeatherDetails = async () => {
@@ -87,6 +91,16 @@ function App() {
   return (
     <>
       <Logo src={logo} alt='MLH Prep Logo' />
+      <button type="button" onClick={() => {
+        if (!user) {
+          history.push("/login")
+        } else {
+          setAccessToken(null);
+          history.push('/');
+        }
+      }}>
+        {!user ? 'Login via Google' : 'Logout'}
+      </button>
       <div>
         <h2>Click on the city 👇 to update location</h2>
         <div
