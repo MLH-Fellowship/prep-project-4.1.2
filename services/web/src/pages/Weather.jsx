@@ -11,6 +11,7 @@ import WeatherDetails from '../components/WeatherDetails/index';
 // State handlers
 import { useWeather } from '../store/contexts/weather.context';
 import { WeatherActionTypes } from '../store/reducers/weather.reducer';
+import { Login } from '../components/login';
 
 /**
  * ! CHECKOUT the blog below for implementation details of
@@ -96,6 +97,7 @@ function App() {
   return (
     <>
       <Logo src={logo} alt='MLH Prep Logo' />
+      <Login />
       <div>
         <h2>Enter a city below 👇</h2>
         <Input

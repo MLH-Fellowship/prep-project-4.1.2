@@ -11,6 +11,8 @@ import { WeatherProvider } from './store/contexts/weather.context';
 
 // components
 import { DynamicBackground } from './components/DynamicBackground';
+import { AccessTokenProvider } from './store/contexts/accessToken.context';
+import { Oauth2Callback } from './components/oauth2callback';
 /**
  * React has a feature where the production code can
  * be splitted into chunks instead of one single file
@@ -31,8 +33,9 @@ const AsyncWeather = lazy(() => import('./pages/Weather'));
 const AsyncError = lazy(() => import('./pages/Error'));
 
 const App = () => (
-    <Router history={history}>
-      <WeatherProvider>
+  <Router history={history}>
+    <WeatherProvider>
+      <AccessTokenProvider>
         <Suspense fallback={<div>Loading...</div>}>
           <Switch>
             <Route exact path='/'>
@@ -40,14 +43,17 @@ const App = () => (
                 <AsyncWeather />
               </DynamicBackground>
             </Route>
-
+            <Route path='/oauth2callback'>
+              <Oauth2Callback />
+            </Route>
             <Route exact path='*'>
               <AsyncError />
             </Route>
           </Switch>
         </Suspense>
-      </WeatherProvider>
-    </Router>
-  );
+      </AccessTokenProvider>
+    </WeatherProvider>
+  </Router>
+);
 
 export default App;
