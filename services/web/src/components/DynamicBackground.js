@@ -5,10 +5,18 @@ import styled from 'styled-components';
 import { createClient } from 'pexels';
 
 const Background = styled.div`
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   background-image: url(${(props) => props.primary});
-  background-repeat: no-repeat;
+  background-repeat: repeat;
+  background-attachment: fixed;
+  padding: 0;
+  margin: 0;
+  @media(max-width:625px) {
+    width: 150%
+  }@media(max-width:415px) {
+  width: 185%
+}
 `;
 
 const client = createClient('563492ad6f91700001000001563c3ddfa43143b3882bb052a2b7abbc');

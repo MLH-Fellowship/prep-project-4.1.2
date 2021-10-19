@@ -1,0 +1,39 @@
+.data{
+    display: grid;
+    grid-auto-rows: auto;
+    background: rgba(29, 27, 28, 0.19);
+    text-align: justify-all;
+    padding: 10px;
+}
+.first-row{
+    text-align: left;
+    font-size: 24px;
+}
+.second-row{
+    display: grid;
+    grid-template-areas: 'auto auto auto';
+}
+
+.location-date{
+    display: grid;
+    grid-template-areas: 'auto';
+}
+
+.third-row{
+    display: grid;
+    grid-template-areas: 'auto';
+}
+
+.inner-row-1, .inner-row-2{
+    display: grid;
+    grid-template-areas: 'auto auto auto auto';
+}
+
+h3 img{
+    position: relative;
+    top: 10px;
+}
+.dataFetched{
+    font-size: 2rem;
+    color: yellow;
+}

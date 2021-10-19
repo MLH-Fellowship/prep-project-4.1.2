@@ -1,0 +1,8 @@
+li{
+    display: inline;
+}
+@media (max-width: 560px) {
+    .footer{
+        margin-bottom: 20%;
+    }
+}
