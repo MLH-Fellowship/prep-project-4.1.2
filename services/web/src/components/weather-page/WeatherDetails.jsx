@@ -6,6 +6,7 @@ import moment from 'moment';
 
 // State Handlers
 import { useWeather } from '../../store/contexts/weather.context';
+import Loader from '../Loader';
 
 const Container = styled.div`
   width: 100%;
@@ -158,31 +159,37 @@ const WeatherDetails = () => {
 
   return (
     <Container>
-      <OverviewContaineer>
-        <div>
-          <LocationName>{`${state.location.city},${state.location.country}`}</LocationName>
-          <DayText>{moment(state.weather.date).format('Do MMMM YYYY')}</DayText>
-          <DayText>{moment(state.weather.day).format('dddd')}</DayText>
-        </div>
-        <Temp>24° C</Temp>
-      </OverviewContaineer>
+      {state.loading ? (
+        <Loader />
+      ) : (
+        <>
+          <OverviewContaineer>
+            <div>
+              <LocationName>{`${state.location.city},${state.location.country}`}</LocationName>
+              <DayText>{moment(state.weather.date).format('Do MMMM YYYY')}</DayText>
+              <DayText>{moment(state.weather.day).format('dddd')}</DayText>
+            </div>
+            <Temp>24° C</Temp>
+          </OverviewContaineer>
 
-      <div style={{ marginTop: '20px' }}>
-        <H2>Air Quality Index</H2>
-        <P2>79 - Satisfactory</P2>
-      </div>
+          <div style={{ marginTop: '20px' }}>
+            <H2>Air Quality Index</H2>
+            <P2>79 - Satisfactory</P2>
+          </div>
 
-      {Details.map((row, index) => (
-        // eslint-disable-next-line react/no-array-index-key
-        <DetailsContainer key={index}>
-          {row.map(({ title, value }) => (
-            <SubContainer key={`${title}-${value}`}>
-              <H3>{title}</H3>
-              <P3>{value}</P3>
-            </SubContainer>
+          {Details.map((row, index) => (
+            // eslint-disable-next-line react/no-array-index-key
+            <DetailsContainer key={index}>
+              {row.map(({ title, value }) => (
+                <SubContainer key={`${title}-${value}`}>
+                  <H3>{title}</H3>
+                  <P3>{value}</P3>
+                </SubContainer>
+              ))}
+            </DetailsContainer>
           ))}
-        </DetailsContainer>
-      ))}
+        </>
+      )}
     </Container>
   );
 };

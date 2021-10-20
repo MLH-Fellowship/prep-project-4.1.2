@@ -5,6 +5,9 @@ import styled from 'styled-components';
 import moment from 'moment';
 import { useWeather } from '../../store/contexts/weather.context';
 
+// Components
+import Loader from '../Loader';
+
 const Container = styled.div`
   grid-column: 4 / span 2;
   background: rgba(63, 68, 71, 0.8);
@@ -68,22 +71,28 @@ const WeeklyDetails = () => {
 
   return (
     <Container>
-      <Row style={{ marginBottom: '1rem', width: '100%' }}>
-        <Title style={{ width: '50%', textAlign: 'left' }}>Day</Title>
-        <Title style={{ width: '25%', textAlign: 'center' }}>High</Title>
-        <Title style={{ width: '25%', textAlign: 'center' }}>Low</Title>
-      </Row>
+      {state.loading ? (
+        <Loader />
+      ) : (
+        <>
+          <Row style={{ marginBottom: '1rem', width: '100%' }}>
+            <Title style={{ width: '50%', textAlign: 'left' }}>Day</Title>
+            <Title style={{ width: '25%', textAlign: 'center' }}>High</Title>
+            <Title style={{ width: '25%', textAlign: 'center' }}>Low</Title>
+          </Row>
 
-      {state.weekly.slice(0, 6).map(({ date, max, min, icon, main }) => (
-        <Row key={date} style={{ marginBottom: '0.4rem', width: '100%' }}>
-          <DayContainer>
-            <Values style={{ textAlign: 'left' }}>{moment.utc(date).format('dddd')}</Values>
-            <Img src={icon} alt={main} />
-          </DayContainer>
-          <Values style={{ width: '20%', textAlign: 'center' }}>{Math.round(max)} °C</Values>
-          <Values style={{ width: '20%', textAlign: 'center' }}>{Math.round(min)} °C</Values>
-        </Row>
-      ))}
+          {state.weekly.slice(0, 6).map(({ date, max, min, icon, main }) => (
+            <Row key={date} style={{ marginBottom: '0.4rem', width: '100%' }}>
+              <DayContainer>
+                <Values style={{ textAlign: 'left' }}>{moment.utc(date).format('dddd')}</Values>
+                <Img src={icon} alt={main} />
+              </DayContainer>
+              <Values style={{ width: '20%', textAlign: 'center' }}>{Math.round(max)} °C</Values>
+              <Values style={{ width: '20%', textAlign: 'center' }}>{Math.round(min)} °C</Values>
+            </Row>
+          ))}
+        </>
+      )}
     </Container>
   );
 };

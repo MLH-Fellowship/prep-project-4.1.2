@@ -1,9 +1,6 @@
-/* eslint-disable react/button-has-type */
-/* eslint-disable no-unused-vars */
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 // Libraries
-import styled from 'styled-components';
 import axios from 'axios';
 
 // Components
@@ -19,11 +16,6 @@ import { WeatherActionTypes } from '../store/reducers/weather.reducer';
  * ! context api state management
  * ! https://kentcdodds.com/blog/how-to-use-react-context-effectively
  */
-
-const Results = styled.div`
-  margin: 10px;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-`;
 
 function App() {
   const [state, dispatch] = useWeather();
@@ -70,9 +62,7 @@ function App() {
 
   return (
     <>
-      <WeatherGrid />
-      {/* // eslint-disable-next-line react/button-has-type */}
-      <button onClick={() => setShowModal((current) => !current)}>Open Modal</button>
+      <WeatherGrid onClickShowModal={() => setShowModal((current) => !current)} />
       <Modal showModal={showModal} onClick={() => setShowModal(false)} />
     </>
   );

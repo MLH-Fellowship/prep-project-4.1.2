@@ -5,7 +5,7 @@
  */
 
 export const initialState = {
-  loading: false,
+  loading: true,
   error: null,
   location: {
     // Location Details
