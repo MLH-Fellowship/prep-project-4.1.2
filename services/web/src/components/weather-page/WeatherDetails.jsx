@@ -115,7 +115,23 @@ const SubContainer = styled.div`
   margin-top: 1.5rem;
 `;
 
-const WeatherDetails = () => {
+const Button = styled.button`
+  width: auto;
+  min-width: 100px;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid #fff;
+  color: #fff;
+  border-radius: 6px;
+  background: transparent;
+  margin-top: 0.4rem;
+  &:hover {
+    cursor: pointer;
+    color: #121217;
+    background: #fff;
+  }
+`;
+
+const WeatherDetails = ({ onClickShowModal }) => {
   const [state] = useWeather();
 
   const Details = [
@@ -166,10 +182,13 @@ const WeatherDetails = () => {
           <OverviewContaineer>
             <div>
               <LocationName>{`${state.location.city},${state.location.country}`}</LocationName>
-              <DayText>{moment(state.weather.date).format('Do MMMM YYYY')}</DayText>
-              <DayText>{moment(state.weather.day).format('dddd')}</DayText>
+              <DayText>{moment(state.weather.date).local().format('Do MMMM YYYY')}</DayText>
+              <DayText>{moment(state.weather.day).local().format('dddd')}</DayText>
             </div>
-            <Temp>24° C</Temp>
+            <div>
+              <Temp>24° C</Temp>
+              <Button onClick={onClickShowModal}>Change Location</Button>
+            </div>
           </OverviewContaineer>
 
           <div style={{ marginTop: '20px' }}>

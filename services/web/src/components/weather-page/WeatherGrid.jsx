@@ -28,9 +28,9 @@ const Div2 = styled.div`
   }
 `;
 
-const WeatherGrid = () => (
+const WeatherGrid = ({ onClickShowModal }) => (
   <GridContainer>
-    <WeatherDetails />
+    <WeatherDetails onClickShowModal={onClickShowModal} />
     <WeeklyDetails />
 
     <Div2>Div2</Div2>
