@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useContext, useEffect, useState } from 'react';
 
 // Libraries
@@ -15,7 +16,7 @@ import logo from '../mlh-prep.png';
 import { useWeather } from '../store/contexts/weather.context';
 import { WeatherActionTypes } from '../store/reducers/weather.reducer';
 import { AccessTokenContext } from '../store/contexts/accessToken.context';
-import LandingWeatherData from "../components/LandingPageWheatherData/LandingWeatherData";
+import LandingWeatherData from '../components/LandingPageWheatherData/LandingWeatherData';
 
 /**
  * ! CHECKOUT the blog below for implementation details of
@@ -33,11 +34,12 @@ const Logo = styled.img`
 
 const Results = styled.div`
   margin: 10px;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);`;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+`;
 
 function App() {
   const [state, dispatch] = useWeather();
-  const [showModal, setShowModal] = useState(true);
+  const [showModal, setShowModal] = useState(false);
   const { user, setAccessToken } = useContext(AccessTokenContext);
   const history = useHistory();
 
@@ -76,14 +78,13 @@ function App() {
     fetchWeatherDetails();
   }, [dispatch, state.location.city, state.location.coords, state.location.isCityLatestUpdate]);
 
-
   if (state.error) {
     return <div>Error: {state.error.message}</div>;
   }
 
   return (
     <>
-      <Logo src={logo} alt='MLH Prep Logo' />
+      {/* <Logo src={logo} alt='MLH Prep Logo' />
       <button type="button" onClick={() => {
         if (!user) {
           history.push("/login")
@@ -115,14 +116,16 @@ function App() {
             </div>
           )}
         </Results>
-      </div>
+      </div> */}
 
       <Modal showModal={showModal} onClick={() => setShowModal(false)} />
 
-      {/* eslint-disable-next-line max-len */}
-      <LandingWeatherData city = {state.location.city} lat = {state.location.coords.lat}
-                          long={state.location.coords.lng} aqi = {state.weather.air_qi}/>
-
+      {/* <LandingWeatherData
+        city={state.location.city}
+        lat={state.location.coords.lat}
+        long={state.location.coords.lng}
+        aqi={state.weather.air_qi}
+      /> */}
     </>
   );
 }
