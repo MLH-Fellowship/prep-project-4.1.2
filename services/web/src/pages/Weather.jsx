@@ -9,28 +9,17 @@ import { useHistory } from 'react-router-dom';
 // Components
 import Modal from '../components/modal/Modal';
 
-// Assets
-import logo from '../mlh-prep.png';
-
 // State handlers
 import { useWeather } from '../store/contexts/weather.context';
 import { WeatherActionTypes } from '../store/reducers/weather.reducer';
 import { AccessTokenContext } from '../store/contexts/accessToken.context';
-import LandingWeatherData from '../components/LandingPageWheatherData/LandingWeatherData';
+import LandingWeatherData from '../components/weather-page/LandingWeatherData';
 
 /**
  * ! CHECKOUT the blog below for implementation details of
  * ! context api state management
  * ! https://kentcdodds.com/blog/how-to-use-react-context-effectively
  */
-
-const Logo = styled.img`
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 20%;
-  margin-top: 20px;
-`;
 
 const Results = styled.div`
   margin: 10px;

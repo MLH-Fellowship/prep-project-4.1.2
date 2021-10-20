@@ -36,9 +36,9 @@ const AsyncError = lazy(() => import('./pages/Error'));
 
 const App = () => (
   <Router history={history}>
-    <NavigationMenu />
     <WeatherProvider>
       <AccessTokenProvider>
+        <NavigationMenu />
         <Suspense fallback={<div>Loading...</div>}>
           <Switch>
             <Route exact path='/'>
