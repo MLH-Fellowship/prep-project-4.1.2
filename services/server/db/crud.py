@@ -1,8 +1,9 @@
-from os import name
 from sqlalchemy.orm import Session
+from sqlalchemy import exc
 from . import models
 import schemas
 from db.database import SessionLocal
+from fastapi import HTTPException
 
 # Dependency
 
@@ -33,6 +34,10 @@ def create_user(db: Session, user: schemas.User):
     db.commit()
     db.refresh(db_user)
     return db_user
+
+
+def get_place_by_id(db: Session, id: int):
+    return db.query(models.Place).filter(models.Place.id == id).first()
 
 
 def create_vote(db: Session, user: models.User, place: models.Place):

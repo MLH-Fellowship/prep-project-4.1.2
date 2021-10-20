@@ -26,11 +26,14 @@ class Vote(VoteBase):
 
 
 class CommentBase(BaseModel):
-    body: str
     place_id: int
+    body: str
 
 
 class Comment(CommentBase):
+    id: int
+    created: datetime
+    user_email: str
 
     class Config:
-        orm_mode: True
+        orm_mode = True
