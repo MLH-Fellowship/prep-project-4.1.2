@@ -1,6 +1,6 @@
 import os
 from fastapi import FastAPI, Depends
-from routers import oauth, comments, votes
+from routers import oauth, comments, votes, sort_places
 from schemas import User
 from verify import get_current_user
 from starlette.middleware.sessions import SessionMiddleware
@@ -21,7 +21,7 @@ app = FastAPI()
 app.include_router(oauth.router, prefix="/oauth")
 app.include_router(votes.router, prefix="/votes")
 app.include_router(comments.router, prefix="/comments")
-
+app.include_router(sort_places.router, prefix='/places')
 
 ALLOWED_HOSTS = ["*"]
 

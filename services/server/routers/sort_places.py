@@ -6,7 +6,7 @@ from db import crud, models
 
 router = APIRouter()
 
-@api_router.get("/places", response_model=List[schemas.Places])  # 3
+@api_router.get("/", response_model=List[schemas.Places])  # 3
 def get_posts(tag_name: str):
 
     if not tag_name:
