@@ -1,0 +1,45 @@
+.weeklyData{
+    text-align: justify-all;
+    border-radius: 20px;
+
+}
+table{
+    background: rgba(29, 27, 28, 0.19);
+    border: 2px solid black;
+    font-size: 1.125rem;
+    font-weight: bold;
+}
+td{
+    padding: 20px;
+
+}
+th{
+    padding: 30px;
+}
+
+.headings{
+    display: grid;
+    grid-template-areas: 'auto auto auto auto';
+}
+
+.weekday{
+    display: grid;
+    grid-template-areas: 'auto auto auto auto';
+    text-align: justify;
+}
+
+
+.high,.low{
+    float: right;
+}
+.desc{
+    float: right;
+}
+
+hr{
+    height: 3px;
+    border: none;
+    margin: auto;
+    align-content: center;
+    width: 80%;
+}
