@@ -35,9 +35,21 @@ def create_user(db: Session, user: schemas.User):
     return db_user
 
 
-def create_vote(db: Session, user_email: str, place_id: int):
-    vote = models.Vote(user_email=user_email, place_id=place_id)
+def create_vote(db: Session, user: models.User, place: models.Place):
+    vote = models.Vote()
+    vote.user = user
+    place.votes.append(vote)
     db.add(vote)
     db.commit()
     db.refresh(vote)
     return vote
+
+
+def create_comment(db: Session, user: models.User, place: models.Place, body: str):
+    comment = models.Comment(body=body)
+    comment.user = user
+    place.comments.append(comment)
+    db.add(comment)
+    db.commit()
+    db.refresh(comment)
+    return comment

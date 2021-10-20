@@ -1,7 +1,5 @@
-from os import name
 from sqlalchemy import Column, Integer, String
-from sqlalchemy.orm import relation, relationship
-from sqlalchemy.sql.expression import null
+from sqlalchemy.orm import relationship
 from sqlalchemy.sql.schema import ForeignKey, Table
 from sqlalchemy.sql.sqltypes import DateTime
 from .database import Base
@@ -35,6 +33,7 @@ class Place(Base):
     district = Column(String)
     tags = relationship("Tag", secondary=tags_places)
     comments = relationship("Comment")
+    votes = relationship("Vote")
 
 
 class Tag(Base):
