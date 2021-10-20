@@ -12,8 +12,8 @@ const Container = styled.div`
   height: auto;
   min-height: 300px;
 
-  background: rgba(63, 68, 71, 0.6);
-  backdrop-filter: blur(2px);
+  background: rgba(63, 68, 71, 0.8);
+  backdrop-filter: blur(10px);
   border-radius: 8px;
   padding: 2rem;
 
@@ -37,6 +37,7 @@ const LocationName = styled.h1`
   font-size: 2rem;
   line-height: 2.5rem;
   color: #ffffff;
+  text-align: left;
 `;
 
 const DayText = styled.p`

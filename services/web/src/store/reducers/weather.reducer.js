@@ -17,6 +17,8 @@ export const initialState = {
     },
   },
   weather: {
+    main: null,
+    id: 10000,
     description: null,
     temp: null,
     date: new Date(),
@@ -87,6 +89,8 @@ export default function WeatherReducer(state, action) {
         error: null,
         weather: {
           ...state.weather,
+          main: action.payload.current.weather[0].main,
+          id: action.payload.current.weather[0].id,
           description: action.payload.current.weather[0].description,
           temp: action.payload.current.feels_like,
           date: new Date(),
@@ -106,10 +110,12 @@ export default function WeatherReducer(state, action) {
             pressure: action.payload.current.pressure,
           },
         },
-        weekly: action.payload.daily.map(({ temp, sunrise }) => ({
+        weekly: action.payload.daily.map(({ temp, sunrise, weather }) => ({
           min: temp.min,
           max: temp.max,
           date: sunrise * 1000,
+          icon: `http://openweathermap.org/img/wn/${weather[0].icon}@2x.png`,
+          main: weather[0].main,
         })),
       };
 

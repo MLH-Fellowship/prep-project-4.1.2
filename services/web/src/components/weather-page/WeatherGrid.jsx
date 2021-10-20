@@ -10,7 +10,6 @@ import WeeklyDetails from './WeeklyDetails';
 const GridContainer = styled.div`
   width: 100%;
   margin-top: 5rem;
-  background-color: green;
 
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
@@ -19,8 +18,8 @@ const GridContainer = styled.div`
 
 const Div2 = styled.div`
   grid-column: 1 / span 5;
-  background: rgba(63, 68, 71, 0.6);
-  backdrop-filter: blur(2px);
+  background: rgba(63, 68, 71, 0.8);
+  backdrop-filter: blur(10px);
   border-radius: 8px;
   min-height: 100px;
 

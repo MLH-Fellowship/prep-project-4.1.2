@@ -7,10 +7,10 @@ import { useWeather } from '../../store/contexts/weather.context';
 
 const Container = styled.div`
   grid-column: 4 / span 2;
-  background: rgba(63, 68, 71, 0.6);
-  backdrop-filter: blur(2px);
+  background: rgba(63, 68, 71, 0.8);
+  backdrop-filter: blur(10px);
   border-radius: 8px;
-  min-height: 100px;
+  min-height: 400px;
   padding: 2rem;
 
   display: flex;
@@ -49,6 +49,20 @@ const Row = styled.div`
   justify-content: space-between;
 `;
 
+const DayContainer = styled.div`
+  width: 60%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 20px;
+`;
+
+const Img = styled.img`
+  height: auto;
+  width: 45px;
+  object-fit: cover;
+`;
+
 const WeeklyDetails = () => {
   const [state] = useWeather();
 
@@ -60,13 +74,14 @@ const WeeklyDetails = () => {
         <Title style={{ width: '25%', textAlign: 'center' }}>Low</Title>
       </Row>
 
-      {state.weekly.slice(0, 6).map(({ date, max, min }) => (
+      {state.weekly.slice(0, 6).map(({ date, max, min, icon, main }) => (
         <Row key={date} style={{ marginBottom: '0.4rem', width: '100%' }}>
-          <Values style={{ width: '50%', textAlign: 'left' }}>
-            {moment.utc(date).format('dddd')}
-          </Values>
-          <Values style={{ width: '25%', textAlign: 'center' }}>{Math.round(max)} °C</Values>
-          <Values style={{ width: '25%', textAlign: 'center' }}>{Math.round(min)} °C</Values>
+          <DayContainer>
+            <Values style={{ textAlign: 'left' }}>{moment.utc(date).format('dddd')}</Values>
+            <Img src={icon} alt={main} />
+          </DayContainer>
+          <Values style={{ width: '20%', textAlign: 'center' }}>{Math.round(max)} °C</Values>
+          <Values style={{ width: '20%', textAlign: 'center' }}>{Math.round(min)} °C</Values>
         </Row>
       ))}
     </Container>
