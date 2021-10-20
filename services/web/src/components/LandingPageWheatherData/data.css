@@ -1,0 +1,84 @@
+.weatherData{
+    display: grid;
+    grid-template-areas: 'auto auto';
+    color: black;
+    margin: auto;
+    width: 70%;
+    padding-left: 8vw;
+    padding-right: 2vw;
+}
+
+.main-area{
+    border: 2px solid black;
+    border-radius: 20px;
+    display: grid;
+    grid-template-areas: 'auto';
+}
+
+.nextSevenDaysUpdate{
+    padding-left: 20px;
+    width: 60%;
+    font-size: 1.125rem;
+}
+
+
+#location{
+    font-size: 3rem;
+}
+#displayData, #temperature{
+    display: grid;
+    grid-template-areas: 'auto auto auto';
+}
+
+#currentTemp, #weatherIcon{
+    font-size: 4rem;
+}
+#descAqi, #feelsLike{
+    text-align: center;
+    font-size: 1.125rem;
+    font-weight: bolder;
+}
+#temperature{
+    font-weight: bolder;
+}
+
+@media (max-width: 1260px){
+    .weatherData{
+        margin-left: 5vw;
+        grid-template-areas: 'auto';
+    }
+}
+@media (max-width: 1550px) {
+
+    .nextSevenDaysUpdate{
+        width: 75%;
+    }
+
+    @media (max-width: 1250px) {
+        .nextSevenDaysUpdate{
+            width: 85%;
+        }
+    }
+    @media (max-width: 1000px) {
+        .nextSevenDaysUpdate{
+            width: 95%;
+        }
+    }
+    @media (max-width: 850px) {
+        .weatherData{
+            display: grid;
+            grid-template-areas: 'auto';
+        }
+    }
+    @media (max-width: 810px) {
+        .weatherData{
+            width: 90%;
+        }
+        .nextSevenDaysUpdate{
+            width: 80%;
+        }
+        hr{
+            width: 95%;
+        }
+    }
+}

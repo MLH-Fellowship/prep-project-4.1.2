@@ -14,6 +14,8 @@ import { DynamicBackground } from './components/DynamicBackground';
 import { AccessTokenProvider } from './store/contexts/accessToken.context';
 import { Oauth2Callback } from './components/oauth2callback';
 import { Login } from './components/login';
+import Footer from "./components/Footer/Footer";
+import NavigationMenu from "./components/Navigation/NavigationMenu";
 /**
  * React has a feature where the production code can
  * be splitted into chunks instead of one single file
@@ -35,13 +37,15 @@ const AsyncError = lazy(() => import('./pages/Error'));
 
 const App = () => (
   <Router history={history}>
+    <NavigationMenu/>
     <WeatherProvider>
       <AccessTokenProvider>
         <Suspense fallback={<div>Loading...</div>}>
           <Switch>
             <Route exact path='/'>
-              <DynamicBackground query='storm'>
+              <DynamicBackground query='sky'>
                 <AsyncWeather />
+                <Footer/>
               </DynamicBackground>
             </Route>
             <Route path='/login'>

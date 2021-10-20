@@ -3,7 +3,6 @@ import React, { useContext, useEffect, useState } from 'react';
 // Libraries
 import styled from 'styled-components';
 import axios from 'axios';
-import moment from 'moment';
 import { useHistory } from 'react-router-dom';
 
 // Components
@@ -16,6 +15,7 @@ import logo from '../mlh-prep.png';
 import { useWeather } from '../store/contexts/weather.context';
 import { WeatherActionTypes } from '../store/reducers/weather.reducer';
 import { AccessTokenContext } from '../store/contexts/accessToken.context';
+import LandingWeatherData from "../components/LandingPageWheatherData/LandingWeatherData";
 
 /**
  * ! CHECKOUT the blog below for implementation details of
@@ -32,15 +32,8 @@ const Logo = styled.img`
 `;
 
 const Results = styled.div`
-  background-color: white;
-  margin-left: 150px;
-  margin-right: 150px;
-  margin-top: 20px;
-  border-radius: 8px;
-  color: black;
-  padding: 10px;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-`;
+  margin: 10px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);`;
 
 function App() {
   const [state, dispatch] = useWeather();
@@ -102,14 +95,15 @@ function App() {
         {!user ? 'Login via Google' : 'Logout'}
       </button>
       <div>
-        <h2>Click on the city 👇 to update location</h2>
+        <h2>Click Search 👇 to update location</h2>
         <div
           role='button'
           tabIndex={0}
           onKeyDown={() => setShowModal(true)}
           onClick={() => setShowModal(true)}
         >
-          <h1 style={{ marginTop: '1.3rem', fontSize: '2.4rem' }}>{state.location.city}</h1>
+          <h1 style={{ marginTop: '1.3rem', fontSize: '2.4rem' }}>Search
+            <img src="https://img.icons8.com/color/64/000000/search--v2.png" alt=""/></h1>
         </div>
 
         <Results>
@@ -117,23 +111,18 @@ function App() {
             'Loading....'
           ) : (
             <div>
-              <h2>
-                {state.location.city}, {state.location.country}
-              </h2>
-              <h2 style={{ marginTop: 20 }}>{state.weather.description}</h2>
-              <h2 style={{ marginTop: 8 }}>Feels Like: {state.weather.temp}</h2>
-              <h2 style={{ marginTop: 8 }}>
-                Sun Rise: {moment(state.weather.sun.rise * 1000).format('LT')}
-              </h2>
-              <h2 style={{ marginTop: 8 }}>
-                Sun Set: {moment(state.weather.sun.set * 1000).format('LT')}
-              </h2>
+              .
             </div>
           )}
         </Results>
       </div>
 
       <Modal showModal={showModal} onClick={() => setShowModal(false)} />
+
+      {/* eslint-disable-next-line max-len */}
+      <LandingWeatherData city = {state.location.city} lat = {state.location.coords.lat}
+                          long={state.location.coords.lng} aqi = {state.weather.air_qi}/>
+
     </>
   );
 }
