@@ -1,6 +1,6 @@
 import os
 from fastapi import FastAPI, Depends
-from routers import oauth
+from routers import oauth, comments
 from schemas import User
 from verify import get_current_user
 from starlette.middleware.sessions import SessionMiddleware
@@ -20,6 +20,8 @@ app = FastAPI()
 
 # use app.include_router to add another app's routes
 app.include_router(oauth.router, prefix="/oauth")
+app.include_router(comments.comment, prefix="/oauth")
+
 
 ALLOWED_HOSTS = ["*"]
 

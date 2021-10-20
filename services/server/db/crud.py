@@ -41,3 +41,11 @@ def create_vote(db: Session, user_email: str, place_id: int):
     db.commit()
     db.refresh(vote)
     return vote
+
+
+def create_user_comment(db: Session, item: schemas.Comment, place_id: int, email):
+    comment = models.Comment(item.comment, place_id, email)
+    db.add(comment)
+    db.commit()
+    db.refresh(comment)
+    return comment

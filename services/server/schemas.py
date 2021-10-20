@@ -23,3 +23,7 @@ class Vote(VoteBase):
 
     class Config:
         orm_mode = True
+
+
+class Comment(BaseModel):
+    comment: str
