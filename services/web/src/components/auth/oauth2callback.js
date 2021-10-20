@@ -1,6 +1,10 @@
 import { useContext, useEffect } from 'react';
+
+// Libraries
 import { useHistory, useLocation } from 'react-router-dom';
-import { AccessTokenContext } from '../store/contexts/accessToken.context';
+
+// State handlers
+import { AccessTokenContext } from '../../store/contexts/accessToken.context';
 
 export const Oauth2Callback = () => {
   const { setAccessToken } = useContext(AccessTokenContext);
@@ -10,10 +14,6 @@ export const Oauth2Callback = () => {
   useEffect(() => {
     let url = `${process.env.REACT_APP_BACKEND_HOST}/oauth/oauth2callback?`;
     url += location.search.substr(1);
-    // Add all url params sent by google to backend /oauth2callback url
-    // Object.keys(urlParams).forEach((key) => {
-    //   url += `${key}=${urlParams[key]}&`
-    // })
 
     fetch(url, { credentials: 'include' })
       .then(async (res) => res.json())
@@ -24,9 +24,9 @@ export const Oauth2Callback = () => {
         setAccessToken(res.access_token);
         history.push('/');
       })
+      // eslint-disable-next-line no-console
       .catch((err) => console.error(err));
-    // eslint-disable-next-line
-  }, [location]);
+  }, [history, location, setAccessToken]);
 
   return null;
 };

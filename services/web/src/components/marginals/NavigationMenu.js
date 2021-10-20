@@ -23,7 +23,7 @@ const navigation = [
   {
     href: '/notifications',
     src: 'https://img.icons8.com/color/48/000000/appointment-reminders--v1.png',
-    text: 'Notifications',
+    text: 'Notifs',
   },
 ];
 

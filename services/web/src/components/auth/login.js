@@ -1,6 +1,10 @@
 import React, { useContext } from 'react';
+
+// Libraries
 import { useHistory } from 'react-router-dom';
-import { AccessTokenContext } from '../store/contexts/accessToken.context';
+
+// State Handlers
+import { AccessTokenContext } from '../../store/contexts/accessToken.context';
 
 export const Login = () => {
   const { user } = useContext(AccessTokenContext);

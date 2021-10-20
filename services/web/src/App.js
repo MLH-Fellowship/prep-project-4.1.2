@@ -12,9 +12,9 @@ import { WeatherProvider } from './store/contexts/weather.context';
 // components
 import { DynamicBackground } from './components/DynamicBackground';
 import { AccessTokenProvider } from './store/contexts/accessToken.context';
-import { Oauth2Callback } from './components/oauth2callback';
-import { Login } from './components/login';
-import NavigationMenu from './components/Navigation/NavigationMenu';
+import { Oauth2Callback } from './components/auth/oauth2callback';
+import { Login } from './components/auth/login';
+import NavigationMenu from './components/marginals/NavigationMenu';
 /**
  * React has a feature where the production code can
  * be splitted into chunks instead of one single file
