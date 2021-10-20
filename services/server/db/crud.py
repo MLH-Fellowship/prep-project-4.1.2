@@ -37,10 +37,10 @@ def create_user(db: Session, user: schemas.User):
 
 
 def get_place_by_id(db: Session, id: int):
-    return db.query(models.Place).filter(models.Place.id == id).limit(10).all()
+    return db.query(models.Place).filter(models.Place.id == id).first()
 
 def get_place_by_tag(db: Session, tag: str):
-    return db.query(models.Place).filter(models.Place.tags == tag).first()
+    return db.query(models.Place).filter(models.Place.tags == tag).limit(10).all()
 
 def create_vote(db: Session, user: models.User, place: models.Place):
     vote = models.Vote()
