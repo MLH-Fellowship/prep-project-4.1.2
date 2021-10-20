@@ -10,11 +10,10 @@ import history from './utils/createBrowserHistory';
 import { WeatherProvider } from './store/contexts/weather.context';
 
 // components
-import { DynamicBackground } from './components/DynamicBackground';
+import Layout from './components/marginals/Layout';
 import { AccessTokenProvider } from './store/contexts/accessToken.context';
 import { Oauth2Callback } from './components/auth/oauth2callback';
 import { Login } from './components/auth/login';
-import NavigationMenu from './components/marginals/NavigationMenu';
 /**
  * React has a feature where the production code can
  * be splitted into chunks instead of one single file
@@ -38,25 +37,24 @@ const App = () => (
   <Router history={history}>
     <WeatherProvider>
       <AccessTokenProvider>
-        <NavigationMenu />
-        <Suspense fallback={<div>Loading...</div>}>
-          <Switch>
-            <Route exact path='/'>
-              <DynamicBackground query='sky'>
+        <Layout>
+          <Suspense fallback={<div>Loading...</div>}>
+            <Switch>
+              <Route exact path='/'>
                 <AsyncWeather />
-              </DynamicBackground>
-            </Route>
-            <Route path='/login'>
-              <Login />
-            </Route>
-            <Route path='/oauth2callback'>
-              <Oauth2Callback />
-            </Route>
-            <Route exact path='*'>
-              <AsyncError />
-            </Route>
-          </Switch>
-        </Suspense>
+              </Route>
+              <Route path='/login'>
+                <Login />
+              </Route>
+              <Route path='/oauth2callback'>
+                <Oauth2Callback />
+              </Route>
+              <Route exact path='*'>
+                <AsyncError />
+              </Route>
+            </Switch>
+          </Suspense>
+        </Layout>
       </AccessTokenProvider>
     </WeatherProvider>
   </Router>

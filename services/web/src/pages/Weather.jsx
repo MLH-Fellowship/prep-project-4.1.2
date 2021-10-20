@@ -73,15 +73,17 @@ function App() {
 
   return (
     <>
-      {/* <Logo src={logo} alt='MLH Prep Logo' />
-      <button type="button" onClick={() => {
-        if (!user) {
-          history.push("/login")
-        } else {
-          setAccessToken(null);
-          history.push('/');
-        }
-      }}>
+      <button
+        type='button'
+        onClick={() => {
+          if (!user) {
+            history.push('/login');
+          } else {
+            setAccessToken(null);
+            history.push('/');
+          }
+        }}
+      >
         {!user ? 'Login via Google' : 'Logout'}
       </button>
       <div>
@@ -92,20 +94,14 @@ function App() {
           onKeyDown={() => setShowModal(true)}
           onClick={() => setShowModal(true)}
         >
-          <h1 style={{ marginTop: '1.3rem', fontSize: '2.4rem' }}>Search
-            <img src="https://img.icons8.com/color/64/000000/search--v2.png" alt=""/></h1>
+          <h1 style={{ marginTop: '1.3rem', fontSize: '2.4rem' }}>
+            Search
+            <img src='https://img.icons8.com/color/64/000000/search--v2.png' alt='' />
+          </h1>
         </div>
 
-        <Results>
-          {state.loading ? (
-            'Loading....'
-          ) : (
-            <div>
-              .
-            </div>
-          )}
-        </Results>
-      </div> */}
+        <Results>{state.loading ? 'Loading....' : <div>.</div>}</Results>
+      </div>
 
       <Modal showModal={showModal} onClick={() => setShowModal(false)} />
 
