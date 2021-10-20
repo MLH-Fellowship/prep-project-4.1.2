@@ -5,7 +5,7 @@
  */
 
 export const initialState = {
-  loading: false,
+  loading: true,
   error: null,
   location: {
     // Location Details
@@ -17,10 +17,12 @@ export const initialState = {
     },
   },
   weather: {
+    main: null,
+    id: 10000,
     description: null,
     temp: null,
-    date: null,
-    day: null,
+    date: new Date(),
+    day: new Date(),
     air_qi: null,
     sun: {
       rise: null,
@@ -54,6 +56,7 @@ export const WeatherActionTypes = {
   UpdateWeatherDetails: 'Update weather details',
   UpdateErrorStatus: 'Update fetch error details',
   UpdateCoords: 'Update location coordinates',
+  UpdateDailyDetails: 'Update daily weather details',
 };
 
 export default function WeatherReducer(state, action) {
@@ -86,14 +89,16 @@ export default function WeatherReducer(state, action) {
         error: null,
         weather: {
           ...state.weather,
+          main: action.payload.current.weather[0].main,
+          id: action.payload.current.weather[0].id,
           description: action.payload.current.weather[0].description,
           temp: action.payload.current.feels_like,
-          date: new Date().toUTCString().slice(5, 16),
-          day: new Date().getDay(),
+          date: new Date(),
+          day: new Date(),
           air_qi: action.payload.current.visibility,
           sun: {
-            rise: action.payload.current.sunrise,
-            set: action.payload.current.sunset,
+            rise: action.payload.current.sunrise * 1000,
+            set: action.payload.current.sunset * 1000,
           },
           rain: {
             humidity: action.payload.current.humidity,
@@ -105,6 +110,13 @@ export default function WeatherReducer(state, action) {
             pressure: action.payload.current.pressure,
           },
         },
+        weekly: action.payload.daily.map(({ temp, sunrise, weather }) => ({
+          min: temp.min,
+          max: temp.max,
+          date: sunrise * 1000,
+          icon: `http://openweathermap.org/img/wn/${weather[0].icon}@2x.png`,
+          main: weather[0].main,
+        })),
       };
 
     default:
