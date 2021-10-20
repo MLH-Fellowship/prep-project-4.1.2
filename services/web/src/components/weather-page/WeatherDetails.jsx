@@ -120,11 +120,11 @@ const WeatherDetails = () => {
     [
       {
         title: 'SUNRISE',
-        value: moment(state.weather.sun.rise).format('hh:mm a'),
+        value: moment.utc(state.weather.sun.rise).format('hh:mm a'),
       },
       {
         title: 'SUNSET',
-        value: moment(state.weather.sun.set).format('hh:mm a'),
+        value: moment.utc(state.weather.sun.set).format('hh:mm a'),
       },
       {
         title: 'HUMIDITY',

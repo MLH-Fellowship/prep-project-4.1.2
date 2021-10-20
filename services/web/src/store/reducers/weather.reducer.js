@@ -54,6 +54,7 @@ export const WeatherActionTypes = {
   UpdateWeatherDetails: 'Update weather details',
   UpdateErrorStatus: 'Update fetch error details',
   UpdateCoords: 'Update location coordinates',
+  UpdateDailyDetails: 'Update daily weather details',
 };
 
 export default function WeatherReducer(state, action) {
@@ -92,8 +93,8 @@ export default function WeatherReducer(state, action) {
           day: new Date(),
           air_qi: action.payload.current.visibility,
           sun: {
-            rise: action.payload.current.sunrise,
-            set: action.payload.current.sunset,
+            rise: action.payload.current.sunrise * 1000,
+            set: action.payload.current.sunset * 1000,
           },
           rain: {
             humidity: action.payload.current.humidity,
@@ -105,6 +106,11 @@ export default function WeatherReducer(state, action) {
             pressure: action.payload.current.pressure,
           },
         },
+        weekly: action.payload.daily.map(({ temp, sunrise }) => ({
+          min: temp.min,
+          max: temp.max,
+          date: sunrise * 1000,
+        })),
       };
 
     default:
