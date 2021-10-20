@@ -1,6 +1,6 @@
 from datetime import datetime
 from pydantic import BaseModel
-
+from typing import List
 
 class UserBase(BaseModel):
     email: str
@@ -34,6 +34,18 @@ class Comment(CommentBase):
     id: int
     created: datetime
     user_email: str
+
+    class Config:
+        orm_mode = True
+
+class PlaceBase(BaseModel):
+    name: str
+    state: str
+    district: str
+    description: str
+    tags: List[str]
+
+class Place(PlaceBase):
 
     class Config:
         orm_mode = True
