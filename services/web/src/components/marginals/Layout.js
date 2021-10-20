@@ -16,7 +16,6 @@ const PrimeContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: red;
 `;
 
 const PageContainer = styled.div`
@@ -26,7 +25,6 @@ const PageContainer = styled.div`
   overflow-x: hidden;
   overflow-y: scroll;
   margin-left: 15%;
-  background-color: green;
 
   @media (max-width: 650px) {
     width: 100%;

@@ -19,8 +19,8 @@ export const initialState = {
   weather: {
     description: null,
     temp: null,
-    date: null,
-    day: null,
+    date: new Date(),
+    day: new Date(),
     air_qi: null,
     sun: {
       rise: null,
@@ -88,8 +88,8 @@ export default function WeatherReducer(state, action) {
           ...state.weather,
           description: action.payload.current.weather[0].description,
           temp: action.payload.current.feels_like,
-          date: new Date().toUTCString().slice(5, 16),
-          day: new Date().getDay(),
+          date: new Date(),
+          day: new Date(),
           air_qi: action.payload.current.visibility,
           sun: {
             rise: action.payload.current.sunrise,
