@@ -1,6 +1,6 @@
 import os
 from fastapi import FastAPI, Depends
-from routers import oauth, comments
+from routers import oauth, comments, votes
 from schemas import User
 from verify import get_current_user
 from starlette.middleware.sessions import SessionMiddleware
@@ -9,7 +9,6 @@ from starlette.requests import Request
 from fastapi.middleware.cors import CORSMiddleware
 from db import models
 from db.database import engine
-from sqlalchemy.orm import Session
 
 
 # Create DB tables
@@ -20,7 +19,8 @@ app = FastAPI()
 
 # use app.include_router to add another app's routes
 app.include_router(oauth.router, prefix="/oauth")
-app.include_router(comments.comment, prefix="/oauth")
+app.include_router(votes.router, prefix="/votes")
+app.include_router(comments.router, prefix="/comments")
 
 
 ALLOWED_HOSTS = ["*"]
@@ -44,32 +44,6 @@ app.add_middleware(SessionMiddleware, secret_key=SECRET_KEY)
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
-
-
-@app.get('/oauth2callback')
-async def token(request: Request):
-    return HTMLResponse('''
-                <script>
-                function send(){
-                    var req = new XMLHttpRequest();
-                    req.onreadystatechange = function() {
-                        if (req.readyState === 4) {
-                            console.log(req.response);
-                            if (req.response["result"] === true) {
-                                window.localStorage.setItem('jwt', req.response["access_token"]);
-                                console.log(req.response)
-                            }
-                        }
-                    }
-                    req.withCredentials = true;
-                    req.responseType = 'json';
-                    req.open("get", "/oauth/oauth2callback?"+window.location.search.substr(1), true);
-                    req.send("");
-
-                }
-                </script>
-                <button onClick="send()">Get FastAPI JWT Token</button>
-            ''')
 
 
 @app.get('/example_protected_route', response_model=User)

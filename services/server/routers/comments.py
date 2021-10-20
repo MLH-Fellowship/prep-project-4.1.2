@@ -1,31 +1,18 @@
-from fastapi import APIRouter, Depends, HTTPException, status
-from pydantic import BaseModel
-from typing import Optional
-
+from fastapi import APIRouter, Depends, HTTPException
 from db.crud import get_db
-from starlette.requests import Request
+import schemas
 from sqlalchemy.orm import Session
-from authlib.integrations.starlette_client import OAuth, OAuthError
-
-from db import crud
-from services.server.routers.oauth import starlette_config
-from starlette.responses import JSONResponse
-
-from schemas import User
+from db import crud, models
 from verify import get_current_user
 
 
-comment = APIRouter(
-    tags=["comment"]
-)
-oauth = OAuth(starlette_config)
+router = APIRouter()
 
 
-class Comment(BaseModel):
-    comment: str
+@router.post('/', response_model=schemas.Comment)
+async def email_subscribe(comment: schemas.CommentBase, db: Session = Depends(get_db), user: models.User = Depends(get_current_user)):
+    place = crud.get_place_by_id(db, comment.place_id)
+    if place is None:
+        raise HTTPException(status_code=404, detail="Place invalid")
 
-
-@comment.post('/', response_model=User)
-async def email_subscribe(place_id: int, item: Comment, db: Session = Depends(get_db), user: User = Depends(get_current_user)):
-
-    return crud.create_user_comment(db, item, place_id, user.email)
+    return crud.create_comment(db, user, place, comment.body)

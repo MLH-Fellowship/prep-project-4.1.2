@@ -25,5 +25,15 @@ class Vote(VoteBase):
         orm_mode = True
 
 
-class Comment(BaseModel):
-    comment: str
+class CommentBase(BaseModel):
+    place_id: int
+    body: str
+
+
+class Comment(CommentBase):
+    id: int
+    created: datetime
+    user_email: str
+
+    class Config:
+        orm_mode = True
