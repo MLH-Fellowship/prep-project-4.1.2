@@ -112,10 +112,10 @@ function News() {
   useEffect(() => {
     const fetchNewsArticles = async () => {
       setLoading(true);
-
+      const d = new Date();
       const API_URL =
         // eslint-disable-next-line max-len
-        `https://newsapi.org/v2/top-headlines?q=climate&from=2021-10-09&to=2021-10-19&sortBy=popularity&` +
+        `https://newsapi.org/v2/top-headlines?q=climate&from=${d.getFullYear()}-${d.getMonth()}-${d.getDate()}&to=${d.getFullYear()}-${d.getMonth()}-${d.getDate()}&sortBy=popularity&` +
         `apiKey=dc1ae9994c704de0a8e9b06a53eac4ba`;
 
       try {
