@@ -1,5 +1,8 @@
 from datetime import datetime
+from typing import Optional
 from pydantic import BaseModel
+from enum import Enum
+from geoalchemy2 import Geometry
 
 
 class UserBase(BaseModel):
@@ -34,6 +37,28 @@ class Comment(CommentBase):
     id: int
     created: datetime
     user_email: str
+
+    class Config:
+        orm_mode = True
+
+
+class WebhookType(str, Enum):
+    email = "email"
+    webhook = "webhook"
+
+
+class WebhookBase(BaseModel):
+    trigger_name: str
+    url: Optional[str]
+    type: WebhookType
+
+
+class WebhookCreate(WebhookBase):
+    locationX: float
+    locationY: float
+
+
+class Webhook(WebhookBase):
 
     class Config:
         orm_mode = True

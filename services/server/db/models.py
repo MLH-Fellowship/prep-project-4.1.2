@@ -15,6 +15,7 @@ class User(Base):
                 nullable=False, autoincrement=True)
     email = Column(String, unique=True, index=True, nullable=False)
     name = Column(String, nullable=False)
+    webhooks = relationship("Webhook", back_populates="user")
 
 
 tags_places = Table('tags_places', Base.metadata,
@@ -74,8 +75,8 @@ class Webhook(Base):
     created = Column(DateTime(timezone=True), default=func.now())
     trigger_name = Column(String)
     url = Column(String)
-    type = Column(String)
+    type = Column(String, nullable=False)
     place = Column(Geometry('POINT'), primary_key=True, nullable=False)
     user_email = Column(String, ForeignKey('users.email'),
                         primary_key=True, nullable=False)
-    user = relationship("User")
+    user = relationship("User", back_populates="webhooks")
