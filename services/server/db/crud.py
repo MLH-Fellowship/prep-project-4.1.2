@@ -1,9 +1,8 @@
 from sqlalchemy.orm import Session
-from sqlalchemy import exc
+from sqlalchemy.sql.expression import desc
 from . import models
 import schemas
 from db.database import SessionLocal
-from fastapi import HTTPException
 
 # Dependency
 
@@ -42,8 +41,7 @@ def get_place_by_id(db: Session, id: int):
 
 def get_places_by_tag(db: Session, tag_name: str):
     ans = db.query(models.Place).join(models.Place.tags).filter(
-        models.Tag.name == tag_name).limit(10).all()
-    print(ans[0].__dict__)
+        models.Tag.name == tag_name).order_by(desc(models.Place.vote_count)).limit(10).all()
     return ans
 
 

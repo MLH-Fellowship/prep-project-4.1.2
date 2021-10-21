@@ -1,6 +1,5 @@
 from datetime import datetime
 from pydantic import BaseModel
-from typing import List
 
 
 class UserBase(BaseModel):
@@ -53,7 +52,7 @@ class PlaceBase(BaseModel):
     vote_count: int
 
 
-class Place(PlaceBase):
+class PlaceList(PlaceBase):
 
     class Config:
         orm_mode = True
