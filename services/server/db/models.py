@@ -29,6 +29,7 @@ class Place(Base):
 
     id = Column(Integer, primary_key=True, index=True,
                 nullable=False, autoincrement=True)
+    vote_count = Column(Integer, default=0)
     name = Column(String, nullable=False)
     state = Column(String)
     district = Column(String)
