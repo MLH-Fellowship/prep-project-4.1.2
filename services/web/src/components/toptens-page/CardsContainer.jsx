@@ -23,7 +23,7 @@ const Container = styled.div`
 `;
 
 const CardContainer = () => {
-  const DATA = [1, 2, 3, 4, 5, 6, 7, 8];
+  const DATA = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   return (
     <Container>

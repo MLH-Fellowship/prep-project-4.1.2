@@ -2,11 +2,12 @@ import React from 'react';
 
 // Components
 import CardsContainer from '../components/toptens-page/CardsContainer';
-import '../assets/style/trip.css';
+import Hero from '../components/toptens-page/Hero';
 
 function TripPlanner() {
   return (
     <>
+      <Hero />
       <CardsContainer />
     </>
   );
