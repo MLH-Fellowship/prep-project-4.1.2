@@ -7,8 +7,8 @@ import Row from 'react-bootstrap/Row';
 import Loader from '../components/Loader';
 
 const defaultImage =
-  'https://storage.googleapis.com/afs-prod/media/' 
-  + 'ec0e8edc073b4dd8bb7c91857dd68f8c/3000.jpeg';
+  'https://storage.googleapis.com/afs-prod/media/' +
+   'ec0e8edc073b4dd8bb7c91857dd68f8c/3000.jpeg';
 
 const NewsContainer = styled.div`
   width: 80vw;
@@ -113,6 +113,7 @@ function News() {
     fetch(
       'https://newsapi.org/v2/top-headlines?q=climate&' +
         'from=2021-10-09&to=2021-10-19&sortBy=popularity&apiKey=dc1ae9994c704de0a8e9b06a53eac4ba',
+        {mode: 'cors'}
     )
       .then((response) => response.json())
       .then((data) => {
