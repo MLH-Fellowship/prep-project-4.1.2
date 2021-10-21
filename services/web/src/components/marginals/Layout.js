@@ -13,9 +13,9 @@ import { getWeatherImg } from '../../utils/getWeatherImg';
 
 const PrimeContainer = styled.div`
   width: 100vw;
-  height: 100vh;
+  height: auto;
   max-width: 100vw;
-  max-height: 100vh;
+  min-height: 100vh;
   overflow-x: hidden;
   overflow-y: scroll;
 
@@ -25,21 +25,19 @@ const PrimeContainer = styled.div`
 `;
 
 const PageContainer = styled.div`
-  width: calc(100vw - 15%);
-  height: auto;
+  width: calc(100vw - 200px);
+  height: 100%;
   min-height: 100vh;
   overflow-x: hidden;
   overflow-y: scroll;
-  margin-left: 15%;
+  margin-left: 200px;
   background: ${({ img, showBg }) => (img && showBg ? `url(${img})` : '#2F3437')};
   background-size: cover;
 
   @media (max-width: 650px) {
     width: 100%;
     margin-left: 0;
-    padding-top: 25rem;
     padding-bottom: 120px;
-    /* padding-bottom: 5rem; */
   }
 `;
 
@@ -61,9 +59,6 @@ const Layout = ({ children }) => {
     const img = getWeatherImg(state.weather.id);
     setBackgroundImg(img);
   }, [state.weather.id]);
-
-  // console.log(location.pathname.split('/').length ===2);
-  // console.log(backgroundImg);
 
   return (
     <PrimeContainer>

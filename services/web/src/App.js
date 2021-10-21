@@ -14,7 +14,7 @@ import Layout from './components/marginals/Layout';
 import { AccessTokenProvider } from './store/contexts/accessToken.context';
 import { Oauth2Callback } from './components/auth/oauth2callback';
 import { Login } from './components/auth/login';
-import TripPlanner from "./pages/TripPlanner";
+
 /**
  * React has a feature where the production code can
  * be splitted into chunks instead of one single file
@@ -33,6 +33,8 @@ import TripPlanner from "./pages/TripPlanner";
  */
 const AsyncWeather = lazy(() => import('./pages/Weather'));
 const AsyncError = lazy(() => import('./pages/Error'));
+const AsyncTopTens = lazy(() => import('./pages/TopTens'));
+const AsyncTopTenPlace = lazy(() => import('./pages/TopTenPlace'));
 
 const App = () => (
   <Router history={history}>
@@ -50,8 +52,11 @@ const App = () => (
               <Route path='/oauth2callback'>
                 <Oauth2Callback />
               </Route>
-              <Route exact path='/trip'>
-                <TripPlanner/>
+              <Route exact path='/toptens'>
+                <AsyncTopTens />
+              </Route>
+              <Route exact path='/toptens/:id'>
+                <AsyncTopTenPlace />
               </Route>
               <Route exact path='*'>
                 <AsyncError />

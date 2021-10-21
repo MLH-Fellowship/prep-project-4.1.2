@@ -16,8 +16,8 @@ const Container = styled.div`
   left: 0%;
   z-index: 1000;
   height: 100vh;
-  min-width: 190px;
-  width: 15%;
+  min-width: 200px;
+  width: 200px;
 
   padding: 5rem 0rem;
   background: #373c3f;

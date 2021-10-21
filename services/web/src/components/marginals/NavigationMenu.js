@@ -16,9 +16,9 @@ const navigation = [
     text: 'News',
   },
   {
-    href: '/trip',
+    href: '/toptens',
     src: 'https://img.icons8.com/color/50/000000/around-the-globe.png',
-    text: 'Trips',
+    text: 'Top Tens',
   },
   {
     href: '/notifications',
