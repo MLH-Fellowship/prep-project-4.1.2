@@ -42,6 +42,25 @@ class Comment(CommentBase):
         orm_mode = True
 
 
+class Tag(BaseModel):
+    name: str
+    id: str
+
+
+class PlaceBase(BaseModel):
+    name: str
+    state: str
+    district: str
+    description: str
+    vote_count: int
+
+
+class PlaceList(PlaceBase):
+
+    class Config:
+        orm_mode = True
+
+
 class WebhookType(str, Enum):
     email = "email"
     webhook = "webhook"

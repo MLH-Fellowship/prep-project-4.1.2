@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+from sqlalchemy.sql.expression import desc
 from . import models
 import schemas
 from db.database import SessionLocal
@@ -38,10 +39,17 @@ def get_place_by_id(db: Session, id: int):
     return db.query(models.Place).filter(models.Place.id == id).first()
 
 
+def get_places_by_tag(db: Session, tag_name: str):
+    ans = db.query(models.Place).join(models.Place.tags).filter(
+        models.Tag.name == tag_name).order_by(desc(models.Place.vote_count)).limit(10).all()
+    return ans
+
+
 def create_vote(db: Session, user: models.User, place: models.Place):
     vote = models.Vote()
     vote.user = user
     place.votes.append(vote)
+    place.vote_count += 1
     db.add(vote)
     db.commit()
     db.refresh(vote)
