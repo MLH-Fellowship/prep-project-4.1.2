@@ -25,12 +25,12 @@ const PrimeContainer = styled.div`
 `;
 
 const PageContainer = styled.div`
-  width: calc(100vw - 15%);
+  width: calc(100vw - 200px);
   height: 100%;
   min-height: 100vh;
   overflow-x: hidden;
   overflow-y: scroll;
-  margin-left: 15%;
+  margin-left: 200px;
   background: ${({ img, showBg }) => (img && showBg ? `url(${img})` : '#2F3437')};
   background-size: cover;
 
