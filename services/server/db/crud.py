@@ -35,8 +35,8 @@ def create_user(db: Session, user: schemas.User):
     return db_user
 
 
-def get_place_by_id(db: Session, id: int):
-    return db.query(models.Place).filter(models.Place.id == id).first()
+def get_place_by_id(db: Session, place_id: int):
+    return db.query(models.Place).filter(models.Place.id == place_id).first()
 
 
 def get_places_by_tag(db: Session, tag_name: str):

@@ -1,8 +1,7 @@
 from datetime import datetime
-from typing import Optional
+from typing import List, Optional
 from pydantic import BaseModel
 from enum import Enum
-from geoalchemy2 import Geometry
 
 
 class UserBase(BaseModel):
@@ -46,6 +45,9 @@ class Tag(BaseModel):
     name: str
     id: str
 
+    class Config:
+        orm_mode = True
+
 
 class PlaceBase(BaseModel):
     name: str
@@ -56,6 +58,15 @@ class PlaceBase(BaseModel):
 
 
 class PlaceList(PlaceBase):
+
+    class Config:
+        orm_mode = True
+
+
+class Place(PlaceBase):
+    id: int
+    tags: List[Tag]
+    comments: List[Comment]
 
     class Config:
         orm_mode = True
