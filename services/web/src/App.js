@@ -34,6 +34,7 @@ import { Login } from './components/auth/login';
 const AsyncWeather = lazy(() => import('./pages/Weather'));
 const AsyncError = lazy(() => import('./pages/Error'));
 const AsyncTopTens = lazy(() => import('./pages/TopTens'));
+const AsyncTopTenPlace = lazy(() => import('./pages/TopTenPlace'));
 
 const App = () => (
   <Router history={history}>
@@ -53,6 +54,9 @@ const App = () => (
               </Route>
               <Route exact path='/toptens'>
                 <AsyncTopTens />
+              </Route>
+              <Route exact path='/toptens/:id'>
+                <AsyncTopTenPlace />
               </Route>
               <Route exact path='*'>
                 <AsyncError />
