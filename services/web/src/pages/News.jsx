@@ -7,9 +7,31 @@ import Row from 'react-bootstrap/Row';
 
 import Loader from '../components/Loader';
 
-const defaultImage =
-  'https://storage.googleapis.com/afs-prod/media/' 
-  + 'ec0e8edc073b4dd8bb7c91857dd68f8c/3000.jpeg';
+const defaultImage =[
+  // eslint-disable-next-line max-len
+"https://images.pexels.com/photos/1118873/pexels-photo-1118873.jpeg?auto=compress&cs=tinysrgb&h=130",
+"https://images.pexels.com/photos/209831/pexels-photo-209831.jpeg?auto=compress&cs=tinysrgb&h=130",
+  "https://images.pexels.com/photos/125510/pexels-photo-125510.jpeg",
+  "https://images.pexels.com/photos/1162251/pexels-photo-1162251.jpeg",
+  "https://images.pexels.com/photos/1431822/pexels-photo-1431822.jpeg",
+  "https://images.pexels.com/photos/1591447/pexels-photo-1591447.jpeg",
+  "https://images.pexels.com/photos/76969/cold-front-warm-front-hurricane-felix-76969.jpeg",
+  "https://images.pexels.com/photos/459451/pexels-photo-459451.jpeg",
+  "https://images.pexels.com/photos/186980/pexels-photo-186980.jpeg",
+  "https://images.pexels.com/photos/531756/pexels-photo-531756.jpeg",
+  "https://images.pexels.com/photos/844297/pexels-photo-844297.jpeg",
+  "https://images.pexels.com/photos/1028600/pexels-photo-1028600.jpeg",
+  "https://images.pexels.com/photos/2990650/pexels-photo-2990650.jpeg",
+  "https://images.pexels.com/photos/2990610/pexels-photo-2990610.jpeg",
+  "https://images.pexels.com/photos/4190513/pexels-photo-4190513.jpeg",
+  "https://images.pexels.com/photos/5799946/pexels-photo-5799946.jpeg",
+  "https://images.pexels.com/photos/4173862/pexels-photo-4173862.jpeg",
+  "https://images.pexels.com/photos/4190564/pexels-photo-4190564.jpeg",
+  "https://images.pexels.com/photos/5273091/pexels-photo-5273091.jpeg"
+];
+
+
+  
 
 const NewsContainer = styled.div`
   width: 80vw;
@@ -44,7 +66,6 @@ const NewsContainer = styled.div`
       font-size: 0.9em;
       font-weight: 500;
       opacity: 0.7;
-      transition: 0.3s;
       position: absolute;
       bottom: 10px;
       left: 25px;
@@ -107,21 +128,20 @@ const NewsContainer = styled.div`
 
 function News() {
   const [news, setNews] = useState([]);
-  const [lading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
+
 
   useEffect(() => {
     const fetchNewsArticles = async () => {
       setLoading(true);
-      const d = new Date();
       const API_URL =
         // eslint-disable-next-line max-len
-        `https://newsapi.org/v2/top-headlines?q=climate&from=${d.getFullYear()}-${d.getMonth()}-${d.getDate()}&to=${d.getFullYear()}-${d.getMonth()}-${d.getDate()}&sortBy=popularity&` +
-        `apiKey=dc1ae9994c704de0a8e9b06a53eac4ba`;
+        `http://api.mediastack.com/v1/news?access_key=f2b68bac58db3ce160dd524427497db3&languages=en,-de&keywords=weather`;
 
       try {
         const { data } = await axios.get(API_URL);
-        console.log(data.articles);
-        setNews(data.articles);
+        console.log(data.data);
+        setNews(data.data);
         setLoading(false);
       } catch (error) {
         console.log(error);
@@ -133,21 +153,21 @@ function News() {
 
   return (
     <NewsContainer>
-      {lading && <Loader />}
+      {loading && <Loader />}
       <Row>
       {news.map((item) => (
         <div className='news_card' key={item.url}>
           <h4 className='heading_over_flow'>
-            {item.author !== null ? item.author : item.source.name}
+            {item.author !== null ? item.author : item.source}
           </h4>
-          {item.urlToImage !== null ? (
-            <img alt='Not available' src={item.urlToImage} />
+          {item.image !== null ? (
+            <img alt='Not available' src={item.image} />
           ) : (
-            <img alt='noImage' src={defaultImage} />
+            <img alt='noImage' src={defaultImage[Math.floor((Math.random() * 19))]} />
           )}
           <div className='texts'>
             <h2 className='title_over_flow'>{item.title}</h2>
-            <p className='text_over_flow'>{item.content}</p>
+            <p className='text_over_flow'>{item.description}</p>
           </div>
           <a href={item.url}>
             <button type='button'>read more</button>
