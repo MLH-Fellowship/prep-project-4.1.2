@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 // Libraries
 import styled from 'styled-components';
@@ -7,8 +8,8 @@ import Row from 'react-bootstrap/Row';
 import Loader from '../components/Loader';
 
 const defaultImage =
-  'https://storage.googleapis.com/afs-prod/media/' +
-   'ec0e8edc073b4dd8bb7c91857dd68f8c/3000.jpeg';
+  'https://storage.googleapis.com/afs-prod/media/' 
+  + 'ec0e8edc073b4dd8bb7c91857dd68f8c/3000.jpeg';
 
 const NewsContainer = styled.div`
   width: 80vw;
@@ -109,42 +110,50 @@ function News() {
   const [lading, setLoading] = useState(true);
 
   useEffect(() => {
-    setLoading(true);
-    fetch(
-      'https://newsapi.org/v2/top-headlines?q=climate&' +
-        'from=2021-10-09&to=2021-10-19&sortBy=popularity&apiKey=dc1ae9994c704de0a8e9b06a53eac4ba',
-        {mode: 'cors'}
-    )
-      .then((response) => response.json())
-      .then((data) => {
+    const fetchNewsArticles = async () => {
+      setLoading(true);
+
+      const API_URL =
+        // eslint-disable-next-line max-len
+        `https://newsapi.org/v2/top-headlines?q=climate&from=2021-10-09&to=2021-10-19&sortBy=popularity&` +
+        `apiKey=dc1ae9994c704de0a8e9b06a53eac4ba`;
+
+      try {
+        const { data } = await axios.get(API_URL);
         console.log(data.articles);
         setNews(data.articles);
         setLoading(false);
-      });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchNewsArticles();
   }, []);
+
   return (
     <NewsContainer>
       {lading && <Loader />}
       <Row>
-        {news.map((item) => (
-          <div className='news_card' key={item.url}>
-            <h4 className='heading_over_flow'>
-              {item.author !== null ? item.author : item.source.name}
-            </h4>
-            {item.urlToImage !== null ? (
-              <img alt='Not available' src={item.urlToImage} />
-            ) : (
-              <img alt='noImage' src={defaultImage} />
-            )}
-            <div className='texts'>
-              <h2 className='title_over_flow'>{item.title}</h2>
-              <p className='text_over_flow'>{item.content}</p>
-            </div>
-            <a href={item.url}>
-              <button type='button'>read more</button>
-            </a>
+      {news.map((item) => (
+        <div className='news_card' key={item.url}>
+          <h4 className='heading_over_flow'>
+            {item.author !== null ? item.author : item.source.name}
+          </h4>
+          {item.urlToImage !== null ? (
+            <img alt='Not available' src={item.urlToImage} />
+          ) : (
+            <img alt='noImage' src={defaultImage} />
+          )}
+          <div className='texts'>
+            <h2 className='title_over_flow'>{item.title}</h2>
+            <p className='text_over_flow'>{item.content}</p>
           </div>
-        ))}
+          <a href={item.url}>
+            <button type='button'>read more</button>
+          </a>
+        </div>
+      ))}
       </Row>
     </NewsContainer>
   );
