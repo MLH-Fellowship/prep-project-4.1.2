@@ -1,9 +1,7 @@
 from sqlalchemy.orm import Session
-from sqlalchemy import exc
 from . import models
 import schemas
 from db.database import SessionLocal
-from fastapi import HTTPException
 
 # Dependency
 
@@ -58,3 +56,16 @@ def create_comment(db: Session, user: models.User, place: models.Place, body: st
     db.commit()
     db.refresh(comment)
     return comment
+
+
+def create_webhook(db: Session, user: models.User, webhook: schemas.WebhookCreate):
+    db_webhook = models.Webhook(trigger_name=webhook.trigger_name,
+                                url=webhook.url,
+                                type=webhook.type,
+                                place='POINT({x},{y})'.format(x=webhook.locationX, y=webhook.locationY))
+    db_webhook.user = user
+    user.webhooks.append(db_webhook)
+    db.add(db_webhook)
+    db.commit()
+    db.refresh(db_webhook)
+    return db_webhook
