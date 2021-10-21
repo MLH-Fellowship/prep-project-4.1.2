@@ -15,7 +15,7 @@ class User(Base):
                 nullable=False, autoincrement=True)
     email = Column(String, unique=True, index=True, nullable=False)
     name = Column(String, nullable=False)
-    webhooks = relationship("Webhook")
+    webhooks = relationship("Webhook", back_populates="user")
 
 
 tags_places = Table('tags_places', Base.metadata,
@@ -79,4 +79,4 @@ class Webhook(Base):
     place = Column(Geometry('POINT'), primary_key=True, nullable=False)
     user_email = Column(String, ForeignKey('users.email'),
                         primary_key=True, nullable=False)
-    user = relationship("User")
+    user = relationship("User", back_populates="webhooks")

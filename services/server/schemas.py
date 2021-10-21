@@ -54,12 +54,11 @@ class WebhookBase(BaseModel):
 
 
 class WebhookCreate(WebhookBase):
-    locationX: int
-    locationY: int
+    locationX: float
+    locationY: float
 
 
 class Webhook(WebhookBase):
-    place: Geometry
 
     class Config:
         orm_mode = True
