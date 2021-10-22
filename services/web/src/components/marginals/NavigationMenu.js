@@ -21,7 +21,7 @@ const navigation = [
     text: 'Top Tens',
   },
   {
-    href: '/notifications',
+    href: '/subscribe',
     src: 'https://img.icons8.com/color/48/000000/appointment-reminders--v1.png',
     text: 'Notifs',
   },
