@@ -3,32 +3,10 @@ import axios from 'axios';
 
 // Libraries
 import styled from 'styled-components';
-import Row from 'react-bootstrap/Row';
+// import Row from 'react-bootstrap/Row';
 
 import Loader from '../components/Loader';
 
-const defaultImage =[
-  // eslint-disable-next-line max-len
-"https://images.pexels.com/photos/1118873/pexels-photo-1118873.jpeg?auto=compress&cs=tinysrgb&h=130",
-"https://images.pexels.com/photos/209831/pexels-photo-209831.jpeg?auto=compress&cs=tinysrgb&h=130",
-  "https://images.pexels.com/photos/125510/pexels-photo-125510.jpeg",
-  "https://images.pexels.com/photos/1162251/pexels-photo-1162251.jpeg",
-  "https://images.pexels.com/photos/1431822/pexels-photo-1431822.jpeg",
-  "https://images.pexels.com/photos/1591447/pexels-photo-1591447.jpeg",
-  "https://images.pexels.com/photos/76969/cold-front-warm-front-hurricane-felix-76969.jpeg",
-  "https://images.pexels.com/photos/459451/pexels-photo-459451.jpeg",
-  "https://images.pexels.com/photos/186980/pexels-photo-186980.jpeg",
-  "https://images.pexels.com/photos/531756/pexels-photo-531756.jpeg",
-  "https://images.pexels.com/photos/844297/pexels-photo-844297.jpeg",
-  "https://images.pexels.com/photos/1028600/pexels-photo-1028600.jpeg",
-  "https://images.pexels.com/photos/2990650/pexels-photo-2990650.jpeg",
-  "https://images.pexels.com/photos/2990610/pexels-photo-2990610.jpeg",
-  "https://images.pexels.com/photos/4190513/pexels-photo-4190513.jpeg",
-  "https://images.pexels.com/photos/5799946/pexels-photo-5799946.jpeg",
-  "https://images.pexels.com/photos/4173862/pexels-photo-4173862.jpeg",
-  "https://images.pexels.com/photos/4190564/pexels-photo-4190564.jpeg",
-  "https://images.pexels.com/photos/5273091/pexels-photo-5273091.jpeg"
-];
 
 
   
@@ -127,21 +105,23 @@ const NewsContainer = styled.div`
 `;
 
 function News() {
-  const [news, setNews] = useState([]);
+  // const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);
 
 
   useEffect(() => {
     const fetchNewsArticles = async () => {
       setLoading(true);
+      const d = new Date();
+      const proxyUrl = "https://cors-anywhere.herokuapp.com/"
       const API_URL =
         // eslint-disable-next-line max-len
-        `http://api.mediastack.com/v1/news?access_key=f2b68bac58db3ce160dd524427497db3&languages=en,-de&keywords=weather`;
-
+        `${proxyUrl}https://newsapi.org/v2/top-headlines?q=climate&from=${d.getFullYear()}-${d.getMonth()}-${d.getDate()}&to=${d.getFullYear()}-${d.getMonth()}-${d.getDate()}&sortBy=popularity&` +
+        `apiKey=dc1ae9994c704de0a8e9b06a53eac4ba`;
       try {
         const { data } = await axios.get(API_URL);
-        console.log(data.data);
-        setNews(data.data);
+        console.log(data);
+        // setNews(data.data);
         setLoading(false);
       } catch (error) {
         console.log(error);
@@ -154,7 +134,7 @@ function News() {
   return (
     <NewsContainer>
       {loading && <Loader />}
-      <Row>
+      {/* <Row>
       {news.map((item) => (
         <div className='news_card' key={item.url}>
           <h4 className='heading_over_flow'>
@@ -174,7 +154,7 @@ function News() {
           </a>
         </div>
       ))}
-      </Row>
+      </Row> */}
     </NewsContainer>
   );
 }
