@@ -108,6 +108,7 @@ const Row = styled.div`
 function News() {
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const fetchNewsArticles = async () => {
@@ -120,16 +121,23 @@ function News() {
         const { data } = await axios.get(API_URL, {
           headers: { 'Ocp-Apim-Subscription-Key': subKey },
         });
-        console.log(data.value);
         setNews(data.value);
         setLoading(false);
-      } catch (error) {
-        console.log(error);
+      } catch (err) {
+        setError(err);
       }
     };
 
     fetchNewsArticles();
   }, []);
+
+  if (error) {
+    return (
+      <div>
+        <h3>{JSON.stringify(error)}</h3>
+      </div>
+    );
+  }
 
   return (
     <NewsContainer>

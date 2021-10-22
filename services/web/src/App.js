@@ -14,6 +14,7 @@ import Layout from './components/marginals/Layout';
 import { AccessTokenProvider } from './store/contexts/accessToken.context';
 import { Oauth2Callback } from './components/auth/oauth2callback';
 import { Login } from './components/auth/login';
+import Loader from './components/Loader';
 
 /**
  * React has a feature where the production code can
@@ -37,14 +38,12 @@ const AsyncError = lazy(() => import('./pages/Error'));
 const AsyncTopTens = lazy(() => import('./pages/TopTens'));
 const AsyncTopTenPlace = lazy(() => import('./pages/TopTenPlace'));
 
-
-
 const App = () => (
   <Router history={history}>
     <WeatherProvider>
       <AccessTokenProvider>
         <Layout>
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={Loader}>
             <Switch>
               <Route exact path='/'>
                 <AsyncWeather />
