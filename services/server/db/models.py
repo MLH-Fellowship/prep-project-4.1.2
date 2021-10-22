@@ -46,6 +46,7 @@ class Tag(Base):
     id = Column(Integer, primary_key=True, index=True,
                 nullable=False, autoincrement=True)
     name = Column(String, nullable=False)
+    picture = Column(String, nullable=False)
 
 
 class Comment(Base):
