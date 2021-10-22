@@ -32,9 +32,12 @@ import { Login } from './components/auth/login';
  *    the appropriate component and the link for it.
  */
 const AsyncWeather = lazy(() => import('./pages/Weather'));
+const AsyncNews = lazy(() => import('./pages/News'));
 const AsyncError = lazy(() => import('./pages/Error'));
 const AsyncTopTens = lazy(() => import('./pages/TopTens'));
 const AsyncTopTenPlace = lazy(() => import('./pages/TopTenPlace'));
+
+
 
 const App = () => (
   <Router history={history}>
@@ -45,6 +48,9 @@ const App = () => (
             <Switch>
               <Route exact path='/'>
                 <AsyncWeather />
+              </Route>
+              <Route exact path='/news'>
+                <AsyncNews />
               </Route>
               <Route path='/login'>
                 <Login />
