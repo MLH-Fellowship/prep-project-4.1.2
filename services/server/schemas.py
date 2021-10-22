@@ -51,6 +51,7 @@ class Tag(BaseModel):
 
 
 class PlaceBase(BaseModel):
+    id: int
     name: str
     state: str
     district: str
@@ -65,7 +66,6 @@ class PlaceList(PlaceBase):
 
 
 class Place(PlaceBase):
-    id: int
     tags: List[Tag]
     comments: List[Comment]
 

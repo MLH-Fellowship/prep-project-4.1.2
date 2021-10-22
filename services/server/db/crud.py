@@ -34,6 +34,8 @@ def create_user(db: Session, user: schemas.User):
     db.refresh(db_user)
     return db_user
 
+def test_populate_db(db: Session, user: schemas.User):
+    create_user(db, user)
 
 def get_place_by_id(db: Session, place_id: int):
     return db.query(models.Place).filter(models.Place.id == place_id).first()

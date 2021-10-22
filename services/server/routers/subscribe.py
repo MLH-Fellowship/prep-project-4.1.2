@@ -15,7 +15,7 @@ router = APIRouter()
 async def webhook_subscribe(webhook: WebhookCreate, user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     if webhook.type == WebhookType.webhook:
         webhook_regex = re.compile(
-            "https:\/\/(www\.|)(discord|discordapp)\.com\/api\/webhooks\/([\d]{18})\/([a-z0-9_-]+)")
+            "https:\/\/(www\.|)(discord|discordapp)\.com\/api\/webhooks\/([\d]{18})\/([a-z0-9A-Z_-]+)")
 
         filtering = webhook_regex.match(webhook.url)
 
