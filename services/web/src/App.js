@@ -37,6 +37,7 @@ const AsyncNews = lazy(() => import('./pages/News'));
 const AsyncError = lazy(() => import('./pages/Error'));
 const AsyncTopTens = lazy(() => import('./pages/TopTens'));
 const AsyncTopTenPlace = lazy(() => import('./pages/TopTenPlace'));
+const AsyncSubscribe = lazy(() => import('./pages/Subscribe'));
 
 const App = () => (
   <Router history={history}>
@@ -62,6 +63,9 @@ const App = () => (
               </Route>
               <Route exact path='/toptens/:id'>
                 <AsyncTopTenPlace />
+              </Route>
+              <Route exact path='/subscribe'>
+                <AsyncSubscribe />
               </Route>
               <Route exact path='*'>
                 <AsyncError />
