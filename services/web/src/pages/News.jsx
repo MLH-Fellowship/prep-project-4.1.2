@@ -48,11 +48,16 @@ const NewsContainer = styled.div`
         opacity: 1;
       }
     }
+    .image-container {
+      width: 100%;
+      height: 150px;
+      background: #a0a0a0;
+    }
     img {
       vertical-align: top;
       opacity: 0.85;
       width: 100%;
-      height: 150px;
+      height: 100%;
       object-fit: cover;
       object-position: center;
       margin-bottom: 20px;
@@ -131,14 +136,16 @@ function News() {
       {loading && <Loader />}
       <Row>
         {news.map((item) => (
-          <div className='news_card' key={item.url}>
-            <img alt={item.name} src={item?.image?.thumbnail?.contentUrl} />
+          <div className='news_card' key={item?.url}>
+            <div className='image-container'>
+              <img alt={item?.name} src={item?.image?.thumbnail?.contentUrl} />
+            </div>
 
             <div className='texts'>
-              <h2 className='title_over_flow'>{item.name}</h2>
-              <p className='text_over_flow'>{item.description}</p>
+              <h2 className='title_over_flow'>{item?.name}</h2>
+              <p className='text_over_flow'>{item?.description}</p>
             </div>
-            <a href={item.url} target='_blank' rel='noreferrer'>
+            <a href={item?.url} target='_blank' rel='noreferrer'>
               <button type='button'>read more</button>
             </a>
           </div>
