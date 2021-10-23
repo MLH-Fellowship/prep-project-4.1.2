@@ -6,6 +6,7 @@ import styled from 'styled-components';
 // Components
 import WeatherDetails from './WeatherDetails';
 import WeeklyDetails from './WeeklyDetails';
+import WeatherBookmark from './WeatherBookmark';
 
 const GridContainer = styled.div`
   width: 100%;
@@ -34,6 +35,7 @@ const WeatherGrid = ({ onClickShowModal }) => (
     <WeeklyDetails />
 
     <Div2>Div2</Div2>
+    <WeatherBookmark />
   </GridContainer>
 );
 

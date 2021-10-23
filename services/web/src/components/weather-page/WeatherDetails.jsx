@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 // Libraries
 import styled from 'styled-components';
@@ -7,6 +7,8 @@ import moment from 'moment';
 // State Handlers
 import { useWeather } from '../../store/contexts/weather.context';
 import Loader from '../Loader';
+
+import Bookmark from './WeatherBookmark';
 
 const Container = styled.div`
   width: 100%;
@@ -133,6 +135,7 @@ const Button = styled.button`
 
 const WeatherDetails = ({ onClickShowModal }) => {
   const [state] = useWeather();
+  const [data, setdata] = useState({ datax: '' });
 
   const Details = [
     [
@@ -173,6 +176,12 @@ const WeatherDetails = ({ onClickShowModal }) => {
     ],
   ];
 
+  const changeState = () => {
+    setdata({
+      data: 'g',
+    });
+  };
+
   return (
     <Container>
       {state.loading ? (
@@ -185,9 +194,16 @@ const WeatherDetails = ({ onClickShowModal }) => {
               <DayText>{moment(state.weather.date).local().format('Do MMMM YYYY')}</DayText>
               <DayText>{moment(state.weather.day).local().format('dddd')}</DayText>
             </div>
+
             <div>
               <Temp>24° C</Temp>
+
+              <Bookmark data={data.datax} />
               <Button onClick={onClickShowModal}>Change Location</Button>
+              <button onClick={changeState} type='button'>
+                Send state
+              </button>
+              <Bookmark data={state} />
             </div>
           </OverviewContaineer>
 
