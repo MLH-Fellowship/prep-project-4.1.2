@@ -44,12 +44,14 @@ class Comment(CommentBase):
 class Tag(BaseModel):
     name: str
     id: str
+    picture: str
 
     class Config:
         orm_mode = True
 
 
 class PlaceBase(BaseModel):
+    id: int
     name: str
     state: str
     district: str
@@ -64,7 +66,6 @@ class PlaceList(PlaceBase):
 
 
 class Place(PlaceBase):
-    id: int
     tags: List[Tag]
     comments: List[Comment]
 
